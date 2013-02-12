@@ -34,7 +34,9 @@ Installation Script:
 Notes:
 
 -HTTPService >>platform (adapted for Cuis)
+
 -KomLogger >>attachTranscript (used Transcript instead TranscriptStream that not exist in Cuis)
+
 -Added >>isTranscriptStream 
 		^true
 		to Transcript class, *KomHttpServer clategory (Instead of Transcript that not exist in Cuis)
