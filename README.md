@@ -30,3 +30,33 @@ Installation Script:
      (FileStream concreteStream readOnlyFileNamed: fileName)
     ].
 
+
+Notes:
+
+-HTTPService >>platform (adapted for Cuis)
+-KomLogger >>attachTranscript (used Transcript instead TranscriptStream that not exist in Cuis)
+-Added >>isTranscriptStream 
+		^true
+		to Transcript class, *KomHttpServer clategory (Instead of Transcript that not exist in Cuis)
+
+
+ToDo List:
+
+-Class TCPListener of KomServices, method pvtOldListenLoop: aBlock I need to implement #waitForConnectionUntil: (Seems that is for Socket class).
+-In Cuis not exist TextFontChange (*KomHttpServer have 2 instance methods for this class:)
+	
+    printHtmlCloseTagOn: strm
+    strm
+        nextPutAll: '</FONT>'
+
+    printHtmlOpenTagOn: strm
+    strm
+        nextPutAll: '<FONT SIZE="';
+        nextPutAll: (self fontNumber + 2) asString;
+        nextPutAll: '">'
+
+-In Cuis not exist TextMorph (*KomHttpServer have 1 instance method for this class:)
+
+    asHttpResponseTo: request
+        ^self asText asHttpResponseTo: request
+ 
