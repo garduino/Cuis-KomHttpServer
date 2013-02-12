@@ -1,5 +1,5 @@
-KomHttpServer
-=============
+Cuis-KomHttpServer
+==================
 
 First port, taken from http://www.squeaksource.com/KomHttpServer.html
 
