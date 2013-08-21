@@ -19,12 +19,12 @@ Installation Script (For Cuis pre 4.2):
      | slash  |
      slash := FileDirectory slash.
      {
-     '..', slash, 'Cuis-Cryptography', slash, 'Cuis-System-Hashing.pck.st' .
-     '..', slash, 'Cuis-CompatibilityWithOtherSmalltalks', slash, 'Cuis-CompatibilityWithOtherSmalltalks.pck.st' .
-     '..', slash, 'Cuis-Pharo14CompatibilityLayer', slash, 'Cuis-Network-MIME.pck.st' .
-     '..', slash, 'Cuis-KomHttpServer', slash, 'DynamicBindings.pck.st' .
-     '..', slash, 'Cuis-KomHttpServer', slash, 'KomServices.pck.st' .
-     '..', slash, 'Cuis-KomHttpServer', slash, 'KomHttpServer.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-Cryptography', slash, 'Cuis-System-Hashing.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-CompatibilityWithOtherSmalltalks', slash, 'Cuis-CompatibilityWithOtherSmalltalks.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-Pharo14CompatibilityLayer', slash, 'Cuis-Network-MIME.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-KomHttpServer', slash, 'DynamicBindings.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-KomHttpServer', slash, 'KomServices.pck.st' .
+     '..', slash, 'Cuis-Smalltalk-KomHttpServer', slash, 'KomHttpServer.pck.st' .
      }
      do:
      [ :fileName | CodePackageFile installPackageStream:
@@ -40,9 +40,9 @@ To load the package
 ````
 This take care of all the prerequisites of KomHttpServer, but you must have cloned the next repos:
 
-	Cuis-Cryptography (The needed prereq package is: Cuis-System-Hashing.pck.st)
-	Cuis-CompatibilityWithOtherSmalltalks (The needed prereq package is: Cuis-CompatibilityWithOtherSmalltalks.pck.st)
-	Cuis-Pharo14CompatibilityLayer (The needed prereq package is: Cuis-Network-MIME.pck.st)
+	Cuis-Smalltalk-Cryptography (The needed prereq package is: Cuis-System-Hashing.pck.st)
+	Cuis-Smalltalk-CompatibilityWithOtherSmalltalks (The needed prereq package is: Cuis-CompatibilityWithOtherSmalltalks.pck.st)
+	Cuis-Smalltalk-Pharo14CompatibilityLayer (The needed prereq package is: Cuis-Network-MIME.pck.st)
 
 
 Notes:
