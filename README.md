@@ -13,7 +13,8 @@ KomServices-lr.21
 
 KomHttpServer-pmm.66 (Squeak Version)
 
-Installation Script:
+
+Installation Script (For Cuis pre 4.2):
 
      | slash  |
      slash := FileDirectory slash.
@@ -29,6 +30,19 @@ Installation Script:
      [ :fileName | CodePackageFile installPackageStream:
      (FileStream concreteStream readOnlyFileNamed: fileName)
     ].
+
+
+Installation for Cuis 4.2
+
+To load the package
+````Smalltalk
+	Feature require: 'KomHttpServer'
+````
+This take care of all the prerequisites of KomHttpServer, but you must have cloned the next repos:
+
+	Cuis-Cryptography (The needed prereq package is: Cuis-System-Hashing.pck.st)
+	Cuis-CompatibilityWithOtherSmalltalks (The needed prereq package is: Cuis-CompatibilityWithOtherSmalltalks.pck.st)
+	Cuis-Pharo14CompatibilityLayer (The needed prereq package is: Cuis-Network-MIME.pck.st)
 
 
 Notes:
