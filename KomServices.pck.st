@@ -1,5 +1,6 @@
-'From Cuis 4.1 of 12 December 2012 [latest update: #1590] on 12 February 2013 at 3:17:18 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #1803] on 21 August 2013 at 10:43:12.347958 am'!
 'Description Please enter a description for this package '!
+!provides: 'KomServices' 1 0!
 !classDefinition: #ApplicationService category: #KomServices!
 Object subclass: #ApplicationService
 	instanceVariableNames: 'name process stopSignal bindings priority'
@@ -10,16 +11,6 @@ Object subclass: #ApplicationService
 ApplicationService class
 	instanceVariableNames: ''!
 
-!classDefinition: #TcpListener category: #KomServices!
-Object subclass: #TcpListener
-	instanceVariableNames: 'portNumber handler socketsToDestroy address'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomServices'!
-!classDefinition: 'TcpListener class' category: #KomServices!
-TcpListener class
-	instanceVariableNames: ''!
-
 !classDefinition: #TcpService category: #KomServices!
 ApplicationService subclass: #TcpService
 	instanceVariableNames: 'portNumber address'
@@ -28,6 +19,16 @@ ApplicationService subclass: #TcpService
 	category: 'KomServices'!
 !classDefinition: 'TcpService class' category: #KomServices!
 TcpService class
+	instanceVariableNames: ''!
+
+!classDefinition: #TcpListener category: #KomServices!
+Object subclass: #TcpListener
+	instanceVariableNames: 'portNumber handler socketsToDestroy address'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomServices'!
+!classDefinition: 'TcpListener class' category: #KomServices!
+TcpListener class
 	instanceVariableNames: ''!
 
 
@@ -53,6 +54,18 @@ dynamicBindings <DynamicBindings | nil> - A set of dynamic bindings that are act
 
 priority <Number> - The priority at which the associated process will run
 
+!
+
+!TcpService commentStamp: 'klc 12/6/2007 16:33' prior: 0!
+I am a KomHttpServer service that listens for inbound TCP connections on a given port.
+
+Instance Variables:
+
+	portNumber - the TCP port number on which to listen for inbound connections
+
+Usage:
+
+Subclasses should override the #serve: method to process incoming TCP connections (a connected socket is passed as the sole argument to this method).  Starting and stopping instances of this class will start and stop listening on the given port number.
 !
 
 !TcpListener commentStamp: 'klc 12/6/2007 16:32' prior: 0!
@@ -84,17 +97,63 @@ In the following example, a TcpListener is established on port 8123.  After eval
 For an additional example of using TcpListener, see TcpService.
 !
 
-!TcpService commentStamp: 'klc 12/6/2007 16:33' prior: 0!
-I am a KomHttpServer service that listens for inbound TCP connections on a given port.
+!Collection methodsFor: '*KomServices' stamp: 'gc 8/29/2008 15:25'!
+asIpByteArray
+	(self size = 4)
+		ifFalse: [^self error: 'Invalid IP Address'].
+	^ self asByteArray! !
 
-Instance Variables:
+!String methodsFor: '*KomServices' stamp: 'svp 5/15/2003 12:23'!
+asIpByteArray
 
-	portNumber - the TCP port number on which to listen for inbound connections
+	| ip tmp |
+	ip := self findTokens: '.'.
+	(ip size = 4) ifFalse: [ ^self error: 'Invalid IP Address' ].
+	ip detect: [ :ea | ea isPositiveInteger and: [ (ea asNumber <= 255) and: [ ea asNumber >= 0 ]]]
+		ifNone: [ ^self error: 'Invalid IP Address' ].
+	tmp := ByteArray new: 4.
+	1 to: 4 do: [ :in | tmp at: in put: (ip at: in) asNumber ].
+	^tmp
+! !
 
-Usage:
+!String methodsFor: '*KomServices' stamp: 'svp 1/21/2003 21:21'!
+isPositiveInteger
 
-Subclasses should override the #serve: method to process incoming TCP connections (a connected socket is passed as the sole argument to this method).  Starting and stopping instances of this class will start and stop listening on the given port number.
-!
+	self isEmpty ifTrue: [^false].
+	self detect: [ :letter | letter isDigit not] ifNone: [^true].
+	^false! !
+
+!ContextPart methodsFor: '*KomServices' stamp: 'svp 5/6/2003 13:42'!
+stackDo: aBlock
+	"Iterates the sender chain, evaluating aBlock for each context"
+
+	| thisCtx |
+	thisCtx := self.
+	[thisCtx notNil] whileTrue:
+		[aBlock value: thisCtx.
+		thisCtx := thisCtx sender]
+! !
+
+!Process methodsFor: '*KomServices' stamp: 'svp 4/25/2003 18:05'!
+okToTerminate
+
+	self suspendedContext ifNotNilDo: 
+		[ :suspendedCtx |
+		suspendedCtx stackDo: 
+			[ :ctx |
+			ctx method == self class termMethod
+				ifTrue: [^true]]].
+	^false! !
+
+!Process class methodsFor: '*KomServices' stamp: 'svp 5/6/2003 13:44'!
+termMethod
+
+	^Process class methodDictionary at: #terminationOkDuring:! !
+
+!Process class methodsFor: '*KomServices' stamp: 'svp 4/25/2003 18:03'!
+terminationOkDuring: aBlock
+
+	^aBlock value! !
 
 !ApplicationService methodsFor: 'private' stamp: 'gc 10/23/2007 23:49'!
 addStopSignal
@@ -475,63 +534,178 @@ startUp
 		[ :ea | ea prepareForStartup].
 ! !
 
-!Collection methodsFor: '*KomServices' stamp: 'gc 8/29/2008 15:25'!
-asIpByteArray
-	(self size = 4)
-		ifFalse: [^self error: 'Invalid IP Address'].
-	^ self asByteArray! !
+!TcpService methodsFor: 'accessing' stamp: 'gc 8/29/2008 17:27'!
+address
+	^ address! !
 
-!ContextPart methodsFor: '*KomServices' stamp: 'svp 5/6/2003 13:42'!
-stackDo: aBlock
-	"Iterates the sender chain, evaluating aBlock for each context"
+!TcpService methodsFor: 'accessing' stamp: 'gc 8/29/2008 17:27'!
+address: anObject
+	address := anObject! !
 
-	| thisCtx |
-	thisCtx := self.
-	[thisCtx notNil] whileTrue:
-		[aBlock value: thisCtx.
-		thisCtx := thisCtx sender]
+!TcpService methodsFor: 'running' stamp: 'svp 1/21/2003 14:37'!
+assignPort
+
+	self verifyPortAvailability: self portNumber.
+	PortAssignments at: self portNumber put: self.
 ! !
 
-!Process methodsFor: '*KomServices' stamp: 'svp 4/25/2003 18:05'!
-okToTerminate
+!TcpService methodsFor: 'initialization' stamp: 'gc 8/29/2008 15:48'!
+initializeOnPort: portNum address: anAddress priority: priorityLevel
 
-	self suspendedContext ifNotNilDo: 
-		[ :suspendedCtx |
-		suspendedCtx stackDo: 
-			[ :ctx |
-			ctx method == self class termMethod
-				ifTrue: [^true]]].
-	^false! !
-
-!Process class methodsFor: '*KomServices' stamp: 'svp 5/6/2003 13:44'!
-termMethod
-
-	^Process class methodDictionary at: #terminationOkDuring:! !
-
-!Process class methodsFor: '*KomServices' stamp: 'svp 4/25/2003 18:03'!
-terminationOkDuring: aBlock
-
-	^aBlock value! !
-
-!String methodsFor: '*KomServices' stamp: 'svp 5/15/2003 12:23'!
-asIpByteArray
-
-	| ip tmp |
-	ip := self findTokens: '.'.
-	(ip size = 4) ifFalse: [ ^self error: 'Invalid IP Address' ].
-	ip detect: [ :ea | ea isPositiveInteger and: [ (ea asNumber <= 255) and: [ ea asNumber >= 0 ]]]
-		ifNone: [ ^self error: 'Invalid IP Address' ].
-	tmp := ByteArray new: 4.
-	1 to: 4 do: [ :in | tmp at: in put: (ip at: in) asNumber ].
-	^tmp
+	portNumber := portNum.
+	address := anAddress.
+	priority := priorityLevel.
 ! !
 
-!String methodsFor: '*KomServices' stamp: 'svp 1/21/2003 21:21'!
-isPositiveInteger
+!TcpService methodsFor: 'initialization' stamp: 'svp 5/6/2003 14:54'!
+initializeOnPort: portNum priority: priorityLevel
 
-	self isEmpty ifTrue: [^false].
-	self detect: [ :letter | letter isDigit not] ifNone: [^true].
-	^false! !
+	portNumber := portNum.
+	priority := priorityLevel.
+! !
+
+!TcpService methodsFor: 'accessing' stamp: 'svp 1/17/2003 16:14'!
+portNumber
+
+	^portNumber! !
+
+!TcpService methodsFor: 'accessing' stamp: 'svp 5/6/2003 14:53'!
+portNumber: aNumber
+
+	self isRunning 
+		ifTrue: 
+			[self verifyPortAvailability: aNumber.
+			self stop.
+			portNumber := aNumber.
+			self start.]
+		ifFalse: 
+			[portNumber := aNumber].
+! !
+
+!TcpService methodsFor: 'startup and shutdown' stamp: 'lr 10/26/2010 21:53'!
+prepareForStartup
+	super prepareForStartup.
+	Socket initializeNetwork! !
+
+!TcpService methodsFor: 'printing' stamp: 'bolot 1/11/2001 15:00'!
+printOn: aStream
+	super printOn: aStream.
+	aStream nextPutAll: ' port: ', self portNumber asString! !
+
+!TcpService methodsFor: 'running' stamp: 'gc 8/29/2008 15:47'!
+runWhile: aBlock 
+	| listener |
+	[listener := TcpListener 
+		on: self portNumber
+		address: self address
+		handler: self.
+	listener listenWhile: aBlock ]
+		ensure: [ self unassignPort ]! !
+
+!TcpService methodsFor: 'conversation' stamp: 'svp 8/20/2003 00:30'!
+serve: aSocket
+	"Subclasses should override this method to provide socket based 
+	communications services.  Each new socket connection is handed to
+	this method."
+
+	self subclassResponsibility
+! !
+
+!TcpService methodsFor: 'starting and stopping' stamp: 'svp 4/25/2003 16:27'!
+start
+
+	self verifyOkToStart ifFalse: [^self].
+	self assignPort.
+	[super start] on: Error do: 
+		[ :ex | self unassignPort. ex pass]
+! !
+
+!TcpService methodsFor: 'starting and stopping' stamp: 'svp 1/17/2003 16:14'!
+startOn: portNum
+
+	(self portNumber ~= portNum) ifTrue: [self stop].
+	self portNumber: portNum.
+	self start.! !
+
+!TcpService methodsFor: 'running' stamp: 'svp 1/17/2003 15:26'!
+unassignPort
+
+	PortAssignments at: self portNumber ifPresent: 
+		[ :srv |
+		srv == self ifTrue: 
+			[PortAssignments removeKey: self portNumber]]
+
+! !
+
+!TcpService methodsFor: 'conversation' stamp: 'gk 12/6/2005 22:57'!
+value: aSocket
+	"This method is invoked by the TcpListener"
+
+	[self serve: aSocket] newProcessWithClampedBindings
+		name: (self name, ' connection');
+		resume
+! !
+
+!TcpService methodsFor: 'running' stamp: 'svp 1/21/2003 14:37'!
+verifyPortAvailability: aNumber
+
+	PortAssignments at: aNumber ifPresent: 
+		[ :otherService | 
+		self error: ('a service is already running on port ', self portNumber asString)].
+
+! !
+
+!TcpService class methodsFor: 'class initialization' stamp: 'svp 5/6/2003 14:51'!
+initialize
+	"self initialize"
+
+	PortAssignments := Dictionary new.! !
+
+!TcpService class methodsFor: 'instance creation' stamp: 'gc 8/29/2008 17:15'!
+on: portNumber
+	^self new
+		portNumber: portNumber;
+		yourself
+! !
+
+!TcpService class methodsFor: 'instance creation' stamp: 'gc 9/2/2008 23:35'!
+on: portNumber named: processName
+	^(self on: portNumber)
+		name: processName;
+		yourself
+! !
+
+!TcpService class methodsFor: 'accessing' stamp: 'gc 7/8/2005 09:45'!
+serviceOnPort: portNumber
+	^ self serviceOnPort: portNumber
+		ifAbsent: [self error: 'No service on that port']! !
+
+!TcpService class methodsFor: 'accessing' stamp: 'gc 7/8/2005 09:45'!
+serviceOnPort: portNumber ifAbsent: aBlock
+	^ self services
+		detect: [:service | service portNumber = portNumber]
+		ifNone: aBlock! !
+
+!TcpService class methodsFor: 'accessing' stamp: 'gk 12/6/2005 23:07'!
+services
+	"Return all registered TcpServices."
+
+	^ super services select: [:service | service isKindOf: TcpService]! !
+
+!TcpService class methodsFor: 'instance creation' stamp: 'svp 1/17/2003 14:16'!
+startOn: portNumber
+
+	^(self on: portNumber) start; yourself
+! !
+
+!TcpService class methodsFor: 'instance creation' stamp: 'gc 9/2/2008 23:36'!
+startOn: portNumber named: aString
+
+	^(self on: portNumber
+		named: aString)
+		start;
+		yourself
+! !
 
 !TcpListener methodsFor: 'accessing' stamp: 'jf 8/18/2003 01:08'!
 acceptTimeout
@@ -754,179 +928,6 @@ on: portNumber handler: aValuable
 	^self new
 		initializeOnPort: portNumber
 		handler: aValuable
-! !
-
-!TcpService methodsFor: 'accessing' stamp: 'gc 8/29/2008 17:27'!
-address
-	^ address! !
-
-!TcpService methodsFor: 'accessing' stamp: 'gc 8/29/2008 17:27'!
-address: anObject
-	address := anObject! !
-
-!TcpService methodsFor: 'running' stamp: 'svp 1/21/2003 14:37'!
-assignPort
-
-	self verifyPortAvailability: self portNumber.
-	PortAssignments at: self portNumber put: self.
-! !
-
-!TcpService methodsFor: 'initialization' stamp: 'gc 8/29/2008 15:48'!
-initializeOnPort: portNum address: anAddress priority: priorityLevel
-
-	portNumber := portNum.
-	address := anAddress.
-	priority := priorityLevel.
-! !
-
-!TcpService methodsFor: 'initialization' stamp: 'svp 5/6/2003 14:54'!
-initializeOnPort: portNum priority: priorityLevel
-
-	portNumber := portNum.
-	priority := priorityLevel.
-! !
-
-!TcpService methodsFor: 'accessing' stamp: 'svp 1/17/2003 16:14'!
-portNumber
-
-	^portNumber! !
-
-!TcpService methodsFor: 'accessing' stamp: 'svp 5/6/2003 14:53'!
-portNumber: aNumber
-
-	self isRunning 
-		ifTrue: 
-			[self verifyPortAvailability: aNumber.
-			self stop.
-			portNumber := aNumber.
-			self start.]
-		ifFalse: 
-			[portNumber := aNumber].
-! !
-
-!TcpService methodsFor: 'startup and shutdown' stamp: 'lr 10/26/2010 21:53'!
-prepareForStartup
-	super prepareForStartup.
-	Socket initializeNetwork! !
-
-!TcpService methodsFor: 'printing' stamp: 'bolot 1/11/2001 15:00'!
-printOn: aStream
-	super printOn: aStream.
-	aStream nextPutAll: ' port: ', self portNumber asString! !
-
-!TcpService methodsFor: 'running' stamp: 'gc 8/29/2008 15:47'!
-runWhile: aBlock 
-	| listener |
-	[listener := TcpListener 
-		on: self portNumber
-		address: self address
-		handler: self.
-	listener listenWhile: aBlock ]
-		ensure: [ self unassignPort ]! !
-
-!TcpService methodsFor: 'conversation' stamp: 'svp 8/20/2003 00:30'!
-serve: aSocket
-	"Subclasses should override this method to provide socket based 
-	communications services.  Each new socket connection is handed to
-	this method."
-
-	self subclassResponsibility
-! !
-
-!TcpService methodsFor: 'starting and stopping' stamp: 'svp 4/25/2003 16:27'!
-start
-
-	self verifyOkToStart ifFalse: [^self].
-	self assignPort.
-	[super start] on: Error do: 
-		[ :ex | self unassignPort. ex pass]
-! !
-
-!TcpService methodsFor: 'starting and stopping' stamp: 'svp 1/17/2003 16:14'!
-startOn: portNum
-
-	(self portNumber ~= portNum) ifTrue: [self stop].
-	self portNumber: portNum.
-	self start.! !
-
-!TcpService methodsFor: 'running' stamp: 'svp 1/17/2003 15:26'!
-unassignPort
-
-	PortAssignments at: self portNumber ifPresent: 
-		[ :srv |
-		srv == self ifTrue: 
-			[PortAssignments removeKey: self portNumber]]
-
-! !
-
-!TcpService methodsFor: 'conversation' stamp: 'gk 12/6/2005 22:57'!
-value: aSocket
-	"This method is invoked by the TcpListener"
-
-	[self serve: aSocket] newProcessWithClampedBindings
-		name: (self name, ' connection');
-		resume
-! !
-
-!TcpService methodsFor: 'running' stamp: 'svp 1/21/2003 14:37'!
-verifyPortAvailability: aNumber
-
-	PortAssignments at: aNumber ifPresent: 
-		[ :otherService | 
-		self error: ('a service is already running on port ', self portNumber asString)].
-
-! !
-
-!TcpService class methodsFor: 'class initialization' stamp: 'svp 5/6/2003 14:51'!
-initialize
-	"self initialize"
-
-	PortAssignments := Dictionary new.! !
-
-!TcpService class methodsFor: 'instance creation' stamp: 'gc 8/29/2008 17:15'!
-on: portNumber
-	^self new
-		portNumber: portNumber;
-		yourself
-! !
-
-!TcpService class methodsFor: 'instance creation' stamp: 'gc 9/2/2008 23:35'!
-on: portNumber named: processName
-	^(self on: portNumber)
-		name: processName;
-		yourself
-! !
-
-!TcpService class methodsFor: 'accessing' stamp: 'gc 7/8/2005 09:45'!
-serviceOnPort: portNumber
-	^ self serviceOnPort: portNumber
-		ifAbsent: [self error: 'No service on that port']! !
-
-!TcpService class methodsFor: 'accessing' stamp: 'gc 7/8/2005 09:45'!
-serviceOnPort: portNumber ifAbsent: aBlock
-	^ self services
-		detect: [:service | service portNumber = portNumber]
-		ifNone: aBlock! !
-
-!TcpService class methodsFor: 'accessing' stamp: 'gk 12/6/2005 23:07'!
-services
-	"Return all registered TcpServices."
-
-	^ super services select: [:service | service isKindOf: TcpService]! !
-
-!TcpService class methodsFor: 'instance creation' stamp: 'svp 1/17/2003 14:16'!
-startOn: portNumber
-
-	^(self on: portNumber) start; yourself
-! !
-
-!TcpService class methodsFor: 'instance creation' stamp: 'gc 9/2/2008 23:36'!
-startOn: portNumber named: aString
-
-	^(self on: portNumber
-		named: aString)
-		start;
-		yourself
 ! !
 ApplicationService initialize!
 TcpService initialize!

@@ -1,23 +1,19 @@
-'From Cuis 4.1 of 12 December 2012 [latest update: #1590] on 12 February 2013 at 4:47:28 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #1803] on 21 August 2013 at 10:43:14.372686 am'!
 'Description Please enter a description for this package '!
-!classDefinition: #ComancheModule category: #'KomHttpServer-Modules'!
-Object subclass: #ComancheModule
-	instanceVariableNames: 'subModules'
-	classVariableNames: ''
+!provides: 'KomHttpServer' 1 0!
+!requires: 'Cuis-System-Hashing' 1 0!
+!requires: 'Cuis-CompatibilityWithOtherSmalltalks' 1 0!
+!requires: 'Cuis-Network-MIME' 1 0!
+!requires: 'DynamicBindings' 1 0!
+!requires: 'KomServices' 1 0!
+!classDefinition: #HttpService category: #'KomHttpServer-Kernel'!
+TcpService subclass: #HttpService
+	instanceVariableNames: 'plug mode'
+	classVariableNames: 'ServerHostName ServerType'
 	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'ComancheModule class' category: #'KomHttpServer-Modules'!
-ComancheModule class
-	instanceVariableNames: ''!
-
-!classDefinition: #HttpAdaptor category: #'KomHttpServer-Protocol'!
-Object subclass: #HttpAdaptor
-	instanceVariableNames: 'stream httpService postProcessors'
-	classVariableNames: 'LastTimeStamp LastTimeStampTime'
-	poolDictionaries: ''
-	category: 'KomHttpServer-Protocol'!
-!classDefinition: 'HttpAdaptor class' category: #'KomHttpServer-Protocol'!
-HttpAdaptor class
+	category: 'KomHttpServer-Kernel'!
+!classDefinition: 'HttpService class' category: #'KomHttpServer-Kernel'!
+HttpService class
 	instanceVariableNames: ''!
 
 !classDefinition: #HttpFormDictionary category: #'KomHttpServer-Protocol'!
@@ -30,104 +26,14 @@ Dictionary subclass: #HttpFormDictionary
 HttpFormDictionary class
 	instanceVariableNames: ''!
 
-!classDefinition: #HttpRequest category: #'KomHttpServer-Protocol'!
-Object subclass: #HttpRequest
-	instanceVariableNames: 'url stream header rawUrl properties'
-	classVariableNames: 'EndOfRequestHeaderMarker'
-	poolDictionaries: ''
-	category: 'KomHttpServer-Protocol'!
-!classDefinition: 'HttpRequest class' category: #'KomHttpServer-Protocol'!
-HttpRequest class
-	instanceVariableNames: ''!
-
-!classDefinition: #HttpResponse category: #'KomHttpServer-Protocol'!
-Object subclass: #HttpResponse
-	instanceVariableNames: 'status contents contentType contentLength fields cookies'
-	classVariableNames: 'StatusCodes StatusSymbols'
-	poolDictionaries: ''
-	category: 'KomHttpServer-Protocol'!
-!classDefinition: 'HttpResponse class' category: #'KomHttpServer-Protocol'!
-HttpResponse class
-	instanceVariableNames: ''!
-
-!classDefinition: #HttpPartialResponse category: #'KomHttpServer-Protocol'!
-HttpResponse subclass: #HttpPartialResponse
-	instanceVariableNames: 'producerBlock'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomHttpServer-Protocol'!
-!classDefinition: 'HttpPartialResponse class' category: #'KomHttpServer-Protocol'!
-HttpPartialResponse class
-	instanceVariableNames: ''!
-
-!classDefinition: #HttpService category: #'KomHttpServer-Kernel'!
-TcpService subclass: #HttpService
-	instanceVariableNames: 'plug mode'
-	classVariableNames: 'ServerHostName ServerType'
-	poolDictionaries: ''
-	category: 'KomHttpServer-Kernel'!
-!classDefinition: 'HttpService class' category: #'KomHttpServer-Kernel'!
-HttpService class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomAuthDb category: #'KomHttpServer-Modules'!
-Object subclass: #KomAuthDb
-	instanceVariableNames: 'passwords'
+!classDefinition: #ComancheModule category: #'KomHttpServer-Modules'!
+Object subclass: #ComancheModule
+	instanceVariableNames: 'subModules'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomAuthDb class' category: #'KomHttpServer-Modules'!
-KomAuthDb class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomLogger category: #'KomHttpServer-Modules'!
-Stream subclass: #KomLogger
-	instanceVariableNames: 'streams'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomLogger class' category: #'KomHttpServer-Modules'!
-KomLogger class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomModuleVisitor category: #'KomHttpServer-Modules'!
-Object subclass: #KomModuleVisitor
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomModuleVisitor class' category: #'KomHttpServer-Modules'!
-KomModuleVisitor class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomModuleValidator category: #'KomHttpServer-Modules'!
-KomModuleVisitor subclass: #KomModuleValidator
-	instanceVariableNames: 'problems'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomModuleValidator class' category: #'KomHttpServer-Modules'!
-KomModuleValidator class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomSession category: #'KomHttpServer-Modules'!
-Object subclass: #KomSession
-	instanceVariableNames: 'id attributes lastAccess'
-	classVariableNames: 'LastSessionID'
-	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomSession class' category: #'KomHttpServer-Modules'!
-KomSession class
-	instanceVariableNames: ''!
-
-!classDefinition: #KomTracer category: #'KomHttpServer-Modules'!
-KomLogger subclass: #KomTracer
-	instanceVariableNames: ''
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'KomHttpServer-Modules'!
-!classDefinition: 'KomTracer class' category: #'KomHttpServer-Modules'!
-KomTracer class
+!classDefinition: 'ComancheModule class' category: #'KomHttpServer-Modules'!
+ComancheModule class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModAlias category: #'KomHttpServer-Modules'!
@@ -188,6 +94,16 @@ ComancheModule subclass: #ModDoc
 	category: 'KomHttpServer-Modules'!
 !classDefinition: 'ModDoc class' category: #'KomHttpServer-Modules'!
 ModDoc class
+	instanceVariableNames: ''!
+
+!classDefinition: #ModVhostDoc category: #'KomHttpServer-Modules'!
+ModDoc subclass: #ModVhostDoc
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'ModVhostDoc class' category: #'KomHttpServer-Modules'!
+ModVhostDoc class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModFile category: #'KomHttpServer-Modules'!
@@ -260,14 +176,84 @@ ComancheModule subclass: #ModVhostAlias
 ModVhostAlias class
 	instanceVariableNames: ''!
 
-!classDefinition: #ModVhostDoc category: #'KomHttpServer-Modules'!
-ModDoc subclass: #ModVhostDoc
+!classDefinition: #HttpAdaptor category: #'KomHttpServer-Protocol'!
+Object subclass: #HttpAdaptor
+	instanceVariableNames: 'stream httpService postProcessors'
+	classVariableNames: 'LastTimeStamp LastTimeStampTime'
+	poolDictionaries: ''
+	category: 'KomHttpServer-Protocol'!
+!classDefinition: 'HttpAdaptor class' category: #'KomHttpServer-Protocol'!
+HttpAdaptor class
+	instanceVariableNames: ''!
+
+!classDefinition: #HttpRequest category: #'KomHttpServer-Protocol'!
+Object subclass: #HttpRequest
+	instanceVariableNames: 'url stream header rawUrl properties'
+	classVariableNames: 'EndOfRequestHeaderMarker'
+	poolDictionaries: ''
+	category: 'KomHttpServer-Protocol'!
+!classDefinition: 'HttpRequest class' category: #'KomHttpServer-Protocol'!
+HttpRequest class
+	instanceVariableNames: ''!
+
+!classDefinition: #HttpResponse category: #'KomHttpServer-Protocol'!
+Object subclass: #HttpResponse
+	instanceVariableNames: 'status contents contentType contentLength fields cookies'
+	classVariableNames: 'StatusCodes StatusSymbols'
+	poolDictionaries: ''
+	category: 'KomHttpServer-Protocol'!
+!classDefinition: 'HttpResponse class' category: #'KomHttpServer-Protocol'!
+HttpResponse class
+	instanceVariableNames: ''!
+
+!classDefinition: #HttpPartialResponse category: #'KomHttpServer-Protocol'!
+HttpResponse subclass: #HttpPartialResponse
+	instanceVariableNames: 'producerBlock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Protocol'!
+!classDefinition: 'HttpPartialResponse class' category: #'KomHttpServer-Protocol'!
+HttpPartialResponse class
+	instanceVariableNames: ''!
+
+!classDefinition: #KomAuthDb category: #'KomHttpServer-Modules'!
+Object subclass: #KomAuthDb
+	instanceVariableNames: 'passwords'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'KomAuthDb class' category: #'KomHttpServer-Modules'!
+KomAuthDb class
+	instanceVariableNames: ''!
+
+!classDefinition: #KomModuleVisitor category: #'KomHttpServer-Modules'!
+Object subclass: #KomModuleVisitor
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'KomHttpServer-Modules'!
-!classDefinition: 'ModVhostDoc class' category: #'KomHttpServer-Modules'!
-ModVhostDoc class
+!classDefinition: 'KomModuleVisitor class' category: #'KomHttpServer-Modules'!
+KomModuleVisitor class
+	instanceVariableNames: ''!
+
+!classDefinition: #KomModuleValidator category: #'KomHttpServer-Modules'!
+KomModuleVisitor subclass: #KomModuleValidator
+	instanceVariableNames: 'problems'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'KomModuleValidator class' category: #'KomHttpServer-Modules'!
+KomModuleValidator class
+	instanceVariableNames: ''!
+
+!classDefinition: #KomSession category: #'KomHttpServer-Modules'!
+Object subclass: #KomSession
+	instanceVariableNames: 'id attributes lastAccess'
+	classVariableNames: 'LastSessionID'
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'KomSession class' category: #'KomHttpServer-Modules'!
+KomSession class
 	instanceVariableNames: ''!
 
 !classDefinition: #ModuleAssembly category: #'KomHttpServer-Modules'!
@@ -300,85 +286,26 @@ Object subclass: #NetworkHost
 NetworkHost class
 	instanceVariableNames: ''!
 
+!classDefinition: #KomLogger category: #'KomHttpServer-Modules'!
+Stream subclass: #KomLogger
+	instanceVariableNames: 'streams'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'KomLogger class' category: #'KomHttpServer-Modules'!
+KomLogger class
+	instanceVariableNames: ''!
 
-!ComancheModule commentStamp: '<historical>' prior: 0!
-Comanche modules response to the message #processHttp and are responsible for examining the http serving environment and possibly altering that environment.  They can act a filters on both the inbound request and the outbound response.  They may also produce content (and even filter content).  Modules for any given server are arranged in a hierarchy that is formed by following the path of subModules.  Any given module may or may not process its subModules.  The method #processHttp answers a boolean to indicate whether or not a response has been made available.  It is up to the parent module to decide whether or not to continue processing other modules if a response is available.  The default behavior is to stop processing and return once a response is made available.!
+!classDefinition: #KomTracer category: #'KomHttpServer-Modules'!
+KomLogger subclass: #KomTracer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'KomHttpServer-Modules'!
+!classDefinition: 'KomTracer class' category: #'KomHttpServer-Modules'!
+KomTracer class
+	instanceVariableNames: ''!
 
-!HttpAdaptor commentStamp: '<historical>' prior: 0!
-kom/4.12 (Comanche/4.12)
-
-HTTPAdaptor (kom/4.8; bolot 4/2/2001 18:48)
-- logging is removed from kom46 core
-- so is Process>>contextAt:ifAbsent:
-- kom48 adds rudimentary persistent connections
--- see keepAliveConnection senders (also in Preferences)
-
-Comment from kom46:
-I encapsulate the HTTP protocol from my clients (who must support the HttpPlug interface).  I use an HttpRequest to pick apart a request and I use an HttpResponse to formulate a response.  Mainly, I broker the conversation, turning a request into a message send (to an HttpPlug) and converting the answer to an HttpResponse.  Thus, my clients must simply implement a message based protocol (eliminating the need for them to be concerned with HTTP syntax).
-
-Instance Variables:
-
-stream <Stream> - A bidirectional stream for reading and writing request (note: previously Comanche separated the readStream and writeStream, if you need to separate the read stream from the write stream you can create a new bidirectional stream class that uses two separate streams for reading and writing)
-
-httpService <HttpService> - an instance of an HttpService or a protocol compatible substitute; this object is used as the error handler and the target of http request dispatching
-
-postProcessors <OrderedCollection | nil> - this is a list of objects that are sent post processing messages (after the response has been written); this enables objects to request that they get called after the HttpAdaptor has actually written the response onto the write stream
-!
-
-!HttpFormDictionary commentStamp: '<historical>' prior: 0!
-kom/4.10 (Comanche beta 4.10)
-HttpFormDictionary
-bolot 6/22/2001 12:09
-
-- use this instead of plain Dictionary for GET and POST forms
-- maintains multiple values for the same field
--- but is backwards compatible, #at: returns the first value (?)
--- so do #booleanAt:, #numberAt:
-- to access the actual value at key, use #rawAt:
--- returns an OrderedCollection
-
-TODO:
-- file upload support
--- idea: first value is file name, second is FileStream?
-
-Koubo 3/19/2002 12:25
-fixed #at: and #at:ifAbsent: returns a String when the value had only one item. however, they returns a copied Collection of the value when it had multiple items.
-!
-
-!HttpPartialResponse commentStamp: '<historical>' prior: 0!
-kom/4.12 (Comanche/4.12)
-
-HttpPartialResponse (bolot 4/2/2001 18:49)
-- not a very accurate name
-- a subclass of HttpResponse
--- allows for long-execution modules to write directly to the client
-!
-
-!HttpRequest commentStamp: '<historical>' prior: 0!
-kom/4.12 (Comanche/4.12)
-bolot 2/20/2002 13:53
-- rawUrl = the entire request string
-- url = rawUrl up to ?
-- queryString = rawUrl after the first ?
-- rawUrl == url?queryString
-
-HttpRequest (bolot 4/2/2001 18:51)
-- HTTP request object wrapper
-- handles details of HTTP
--- headers, formats, etc.
-- as of kom47, handles multipart posts
-- in kom49 (or kom50) a minor refactoring will happen!
-
-!HttpResponse commentStamp: '<historical>' prior: 0!
-kom/4.12 (Comanche/4.12)
-bolot 2/20/2002 13:55
-- cookies support
-- defaultChunkSize delegates to Kom5Preferences
-
-HttpResponse (bolot 4/2/2001 18:52)
-
-Comment from kom46:
-I am a response to an HttpRequest.  I can formulate an HTTP response and send it out over a socket.  An HttpAdapter will accept an HttpRequest, dispatch a method call to an HttpPlug (which will result in a stream or an error), and then formulat an instance of me to deliver the response to the client.!
 
 !HttpService commentStamp: '<historical>' prior: 0!
 I am a comanche service that listens for inbound HTTP connectinos on a given port.
@@ -404,40 +331,28 @@ Pluggable Examples (BlockContext):
 		start
 !
 
-!KomAuthDb commentStamp: '<historical>' prior: 0!
-I am a very basic authentication database.  My passwords instvar is a dictionary whose keys are user names and values are hexadecimal encodings of passwords.  Subclasses could override the encode: and decode:using: methods to provide a better "encryption" of the passwords.  That wasn't done in this class because it would add a dependency on the cryptography package.  I am designed to be used with ModAuth, which sends us the message #verifyPassword:forUser: to validate user ids and passwords.!
+!HttpFormDictionary commentStamp: '<historical>' prior: 0!
+kom/4.10 (Comanche beta 4.10)
+HttpFormDictionary
+bolot 6/22/2001 12:09
 
-!KomLogger commentStamp: '<historical>' prior: 0!
-I am a very simple http logging facility.  I implement a writable stream interface and expect to recieve arrays containing an HttpRequest (first element) and an HttpResponse (second element).  I then translate the request and response pair into a textual log format and write that onto each stream in my streams instance variable.  Other loggers may choose to write different log formats, or they could simply store the HttpRequest and HttpResponse objects (in an object DB for example).  For convenience, a transcript window can be opened on a logger using #openTranscript.  You Can also use the method #attachTheTranscript to copy the log entries onto the system Transcript.  Use #detachTranscripts to remove all instances of TranscriptStream from the set of streams.
+- use this instead of plain Dictionary for GET and POST forms
+- maintains multiple values for the same field
+-- but is backwards compatible, #at: returns the first value (?)
+-- so do #booleanAt:, #numberAt:
+- to access the actual value at key, use #rawAt:
+-- returns an OrderedCollection
 
-Currently I only support the Commog Log Format (CLF), which many log analysis tools can interpret.  For more information on this format, see:
+TODO:
+- file upload support
+-- idea: first value is file name, second is FileStream?
 
-  http://www.w3.org/Daemon/User/Config/Logging.html#common-logfile-format
+Koubo 3/19/2002 12:25
+fixed #at: and #at:ifAbsent: returns a String when the value had only one item. however, they returns a copied Collection of the value when it had multiple items.
+!
 
-For examples, see the class comments for ModLog.
-
-
-Enhancement ideas:
-
-- support a flexible logging format that uses some type of template string (ala Apache's logging facility) for producing each line in the log file 
-- implement a "multi-streamer" that implements a writable stream interface and will copy the output to multiple output streams
-- implement a unix like tail tool that implement a writable stream interface and will "follow" everything that's written to it (similar to the Transcript, but designed to only show the most recent N number of lines or characters)!
-
-!KomSession commentStamp: '<historical>' prior: 0!
-I am a session and am used by ModSession to associate sessions with incoming http requests.  After a period of inactivity, sessions are expired.
-
-Notes: This class is a hold over from the old HttpSession class.  This class was renamed because it is not part of the HTTP protocol.  See ModSession for details on how to establish sessions.  You may use the attributes instance variable to hold additional state (such as user object for your application).  Alternatively, other modules may use the session to assign additional dynamic bindings.
-
-For examples see the class comments for ModSession.!
-
-!KomTracer commentStamp: '<historical>' prior: 0!
-I am a KomLogger, but instead of writing a log file format, I write out a detailed trace of the http request and response pairs.  The following example will dump a trace on the transcript.
-
-	| ma |
-	ma _ ModuleAssembly core.
-	ma logTo: (KomTracer on: Transcript).
-	ma addPlug: [ :request | HttpResponse fromString: 'Hello World!!'].
-	(HttpService startOn: 8080 named: 'Example') plug: ma rootModule!
+!ComancheModule commentStamp: '<historical>' prior: 0!
+Comanche modules response to the message #processHttp and are responsible for examining the http serving environment and possibly altering that environment.  They can act a filters on both the inbound request and the outbound response.  They may also produce content (and even filter content).  Modules for any given server are arranged in a hierarchy that is formed by following the path of subModules.  Any given module may or may not process its subModules.  The method #processHttp answers a boolean to indicate whether or not a response has been made available.  It is up to the parent module to decide whether or not to continue processing other modules if a response is available.  The default behavior is to stop processing and return once a response is made available.!
 
 !ModAlias commentStamp: '<historical>' prior: 0!
 This module will attempt to match a prefix to the URL of a request.  If a match is made, its subModules will be processed.  If not, then its subModules are not processed.  The following is an example:
@@ -546,6 +461,9 @@ The following is an example:
 
 This example just starts a file server on your default directory.  Any directories (that don't have an index file) will be rendered as listings by ModAutoIndex.
 !
+
+!ModVhostDoc commentStamp: '<historical>' prior: 0!
+Used for determining the document root for mass virtual hosting (where the virtual server name is incorporated into the document root).  See the class comments for ModVhost for an example of virtual hosting.!
 
 !ModFile commentStamp: '<historical>' prior: 0!
 This module serves a file based on the setting of ModCore fullFilePath.
@@ -759,8 +677,71 @@ In this example, you will see different content depending on whether you access 
 !ModVhostAlias commentStamp: '<historical>' prior: 0!
 See the class comments for ModVhost for using Comanche's virtual hosting features.!
 
-!ModVhostDoc commentStamp: '<historical>' prior: 0!
-Used for determining the document root for mass virtual hosting (where the virtual server name is incorporated into the document root).  See the class comments for ModVhost for an example of virtual hosting.!
+!HttpAdaptor commentStamp: '<historical>' prior: 0!
+kom/4.12 (Comanche/4.12)
+
+HTTPAdaptor (kom/4.8; bolot 4/2/2001 18:48)
+- logging is removed from kom46 core
+- so is Process>>contextAt:ifAbsent:
+- kom48 adds rudimentary persistent connections
+-- see keepAliveConnection senders (also in Preferences)
+
+Comment from kom46:
+I encapsulate the HTTP protocol from my clients (who must support the HttpPlug interface).  I use an HttpRequest to pick apart a request and I use an HttpResponse to formulate a response.  Mainly, I broker the conversation, turning a request into a message send (to an HttpPlug) and converting the answer to an HttpResponse.  Thus, my clients must simply implement a message based protocol (eliminating the need for them to be concerned with HTTP syntax).
+
+Instance Variables:
+
+stream <Stream> - A bidirectional stream for reading and writing request (note: previously Comanche separated the readStream and writeStream, if you need to separate the read stream from the write stream you can create a new bidirectional stream class that uses two separate streams for reading and writing)
+
+httpService <HttpService> - an instance of an HttpService or a protocol compatible substitute; this object is used as the error handler and the target of http request dispatching
+
+postProcessors <OrderedCollection | nil> - this is a list of objects that are sent post processing messages (after the response has been written); this enables objects to request that they get called after the HttpAdaptor has actually written the response onto the write stream
+!
+
+!HttpRequest commentStamp: '<historical>' prior: 0!
+kom/4.12 (Comanche/4.12)
+bolot 2/20/2002 13:53
+- rawUrl = the entire request string
+- url = rawUrl up to ?
+- queryString = rawUrl after the first ?
+- rawUrl == url?queryString
+
+HttpRequest (bolot 4/2/2001 18:51)
+- HTTP request object wrapper
+- handles details of HTTP
+-- headers, formats, etc.
+- as of kom47, handles multipart posts
+- in kom49 (or kom50) a minor refactoring will happen!
+
+!HttpResponse commentStamp: '<historical>' prior: 0!
+kom/4.12 (Comanche/4.12)
+bolot 2/20/2002 13:55
+- cookies support
+- defaultChunkSize delegates to Kom5Preferences
+
+HttpResponse (bolot 4/2/2001 18:52)
+
+Comment from kom46:
+I am a response to an HttpRequest.  I can formulate an HTTP response and send it out over a socket.  An HttpAdapter will accept an HttpRequest, dispatch a method call to an HttpPlug (which will result in a stream or an error), and then formulat an instance of me to deliver the response to the client.!
+
+!HttpPartialResponse commentStamp: '<historical>' prior: 0!
+kom/4.12 (Comanche/4.12)
+
+HttpPartialResponse (bolot 4/2/2001 18:49)
+- not a very accurate name
+- a subclass of HttpResponse
+-- allows for long-execution modules to write directly to the client
+!
+
+!KomAuthDb commentStamp: '<historical>' prior: 0!
+I am a very basic authentication database.  My passwords instvar is a dictionary whose keys are user names and values are hexadecimal encodings of passwords.  Subclasses could override the encode: and decode:using: methods to provide a better "encryption" of the passwords.  That wasn't done in this class because it would add a dependency on the cryptography package.  I am designed to be used with ModAuth, which sends us the message #verifyPassword:forUser: to validate user ids and passwords.!
+
+!KomSession commentStamp: '<historical>' prior: 0!
+I am a session and am used by ModSession to associate sessions with incoming http requests.  After a period of inactivity, sessions are expired.
+
+Notes: This class is a hold over from the old HttpSession class.  This class was renamed because it is not part of the HTTP protocol.  See ModSession for details on how to establish sessions.  You may use the attributes instance variable to hold additional state (such as user object for your application).  Alternatively, other modules may use the session to assign additional dynamic bindings.
+
+For examples see the class comments for ModSession.!
 
 !ModuleAssembly commentStamp: '<historical>' prior: 0!
 I am a module assembly.  I provide a convienient mechanism for assembling modules into a module hierarchy for use by an HttpService.  The following is a very simple example of how to use a ModuleAssembly:
@@ -790,6 +771,56 @@ I am an abstaction of a network host (in DNS parlance) and port number.  I can a
 
 	NetworkHost fromString: 'www.yahoo.com:8080'
 	NetworkHost fromString: '192.168.1.1:80'!
+
+!KomLogger commentStamp: '<historical>' prior: 0!
+I am a very simple http logging facility.  I implement a writable stream interface and expect to recieve arrays containing an HttpRequest (first element) and an HttpResponse (second element).  I then translate the request and response pair into a textual log format and write that onto each stream in my streams instance variable.  Other loggers may choose to write different log formats, or they could simply store the HttpRequest and HttpResponse objects (in an object DB for example).  For convenience, a transcript window can be opened on a logger using #openTranscript.  You Can also use the method #attachTheTranscript to copy the log entries onto the system Transcript.  Use #detachTranscripts to remove all instances of TranscriptStream from the set of streams.
+
+Currently I only support the Commog Log Format (CLF), which many log analysis tools can interpret.  For more information on this format, see:
+
+  http://www.w3.org/Daemon/User/Config/Logging.html#common-logfile-format
+
+For examples, see the class comments for ModLog.
+
+
+Enhancement ideas:
+
+- support a flexible logging format that uses some type of template string (ala Apache's logging facility) for producing each line in the log file 
+- implement a "multi-streamer" that implements a writable stream interface and will copy the output to multiple output streams
+- implement a unix like tail tool that implement a writable stream interface and will "follow" everything that's written to it (similar to the Transcript, but designed to only show the most recent N number of lines or characters)!
+
+!KomTracer commentStamp: '<historical>' prior: 0!
+I am a KomLogger, but instead of writing a log file format, I write out a detailed trace of the http request and response pairs.  The following example will dump a trace on the transcript.
+
+	| ma |
+	ma _ ModuleAssembly core.
+	ma logTo: (KomTracer on: Transcript).
+	ma addPlug: [ :request | HttpResponse fromString: 'Hello World!!'].
+	(HttpService startOn: 8080 named: 'Example') plug: ma rootModule!
+
+!Object methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:17'!
+asHtmlDocumentForRequest: aNetworkRequest
+
+	self error: 
+		('The requested object (', 
+		self asString, 
+		'), could not be converted into HTML for your browser.')! !
+
+!Object methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:23'!
+asHttpResponseTo: anHttpRequest
+
+	^(self asHtmlDocumentForRequest: anHttpRequest) 
+		asHttpResponseTo: anHttpRequest
+! !
+
+!Object methodsFor: '*KomHttpServer' stamp: 'gc 3/4/2009 00:34'!
+contentType
+
+	^MIMEDocument defaultContentType! !
+
+!Object methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 12:47'!
+isComancheModule
+
+	^false! !
 
 !BlockClosure methodsFor: '*KomHttpServer' stamp: 'damiencassou 4/5/2009 18:58'!
 doPostProcessingFor: request response: response
@@ -844,6 +875,35 @@ visitWithValuable: aMonadicValuable
 
 ! !
 
+!ByteArray methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 12:23'!
+asIpString
+
+	^String streamContents: 
+		[ :strm |
+		self do: 
+			[ :ea |
+			strm nextPutAll: ea asString.
+			strm nextPut: $.].
+		strm skip: -1]
+! !
+
+!Color methodsFor: '*KomHttpServer' stamp: 'cwp 6/10/2004 21:53'!
+hex
+	^ (rgb hex allButFirst: 3) asLowercase! !
+
+!Form methodsFor: '*KomHttpServer' stamp: 'bolot 2/14/2000 15:59'!
+asHttpResponseTo: request
+	^HttpResponse fromMIMEDocument: self asWebImage! !
+
+!Form methodsFor: '*KomHttpServer' stamp: 'gc 10/24/2007 10:06'!
+asWebImage
+	"return a MIMEDocument"
+	| aStream |
+	aStream := (RWBinaryOrTextStream on: String new).
+	GIFReadWriter putForm: (self asFormOfDepth: 8) onStream: aStream.
+	aStream reset.
+	^MIMEDocument contentType: MIMEDocument contentTypeGif content: aStream! !
+
 !BlockContext methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 10:10'!
 doPostProcessingFor: request response: response
 	"The method is to provide compatibility with HttpAdaptor's post processing.
@@ -897,21 +957,458 @@ visitWithValuable: aMonadicValuable
 
 ! !
 
-!ByteArray methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 12:23'!
-asIpString
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 10:10'!
+doPostProcessingFor: request response: response
+	"The method is to provide compatibility with HttpAdaptor's post processing.
+	The receiver is expected to accept two arguments."
 
-	^String streamContents: 
-		[ :strm |
-		self do: 
-			[ :ea |
-			strm nextPutAll: ea asString.
-			strm nextPut: $.].
-		strm skip: -1]
+	^self value: request value: response! !
+
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/13/2003 09:53'!
+processHttp
+	"<Boolean> The receiver should answer a boolean to indicate whether 
+	there is an HttpResponse available (accessed by HttpResponse current).
+	If the receiver takes no arguments, then assume that it answers a Boolean
+	and uses dyanmic bindings to access the current request/response, otherwise
+	pass in the current request and set the current response."
+
+	| response |
+	arguments size = 0
+		ifTrue: [^self value].
+	arguments size = 1
+		ifTrue: 
+			[response := self value: HttpRequest current.
+			response ifNotNil:
+				[HttpResponse current: response.
+				^true].
+			^false]
+
+	! !
+
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 4/17/2003 09:00'!
+processHttpRequest: request
+	"<HttpResponse> The receiver should answer an HttpResponse for sending 
+	to the client."
+
+	arguments size = 1
+		ifTrue: [^self value: HttpRequest current].
+	arguments size = 0
+		ifTrue: [^self value].
+
+	! !
+
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 12:34'!
+processVisitor: aKomModuleVisitor
+
+	^aKomModuleVisitor doMessageSend: self! !
+
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 23:44'!
+validateForStack: anArray
+	"Do nothing, provided to provide compatibility with ComancheModule"! !
+
+!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 13:22'!
+visitWithValuable: aMonadicValuable
+
+	aMonadicValuable value: self.
+
 ! !
 
-!Color methodsFor: '*KomHttpServer' stamp: 'cwp 6/10/2004 21:53'!
-hex
-	^ (rgb hex allButFirst: 3) asLowercase! !
+!Morph methodsFor: '*KomHttpServer' stamp: 'bolot 10/16/2001 21:33'!
+asHttpResponseTo: request
+	^self imageForm asHttpResponseTo: request! !
+
+!ReadWriteStream methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:07'!
+asHttpResponseTo: request
+
+	^HttpResponse fromStream: self! !
+
+!UndefinedObject methodsFor: '*KomHttpServer' stamp: 'svp 12/16/1999 10:35'!
+contentTypeGif
+	^'image/gif'! !
+
+!UndefinedObject methodsFor: '*KomHttpServer' stamp: 'gh 8/30/2002 10:21'!
+contentTypeTextCSS
+	^'text/css'! !
+
+!HttpService methodsFor: 'error handling' stamp: 'brp 10/2/2004 15:51'!
+detailedErrorResponseStatus: aSymbol exception: anException 
+	^self errorResponseStatus: aSymbol
+		description: '<pre><b>' , anException description , '</b><br><br>' 
+				, anException signalerContext longStack , '</pre>'! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/16/2003 23:08'!
+errorResponseStatus: aSymbol description: aString
+
+	^HttpResponse
+		status: aSymbol
+		contents: 
+'<!!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>', (HttpResponse statusCodeFor: aSymbol), ' ', (HttpResponse statusDescriptionFor: aSymbol), '</title>
+</head><body>
+<h1>', (HttpResponse statusDescriptionFor: aSymbol),'</h1>
+', aString, '<p>
+<hr>
+<address>', self serverDescription,'</address>
+</body></html>'! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/12/2003 16:27'!
+handleDispatchErrorsIn: aBlock
+	"Note: We could break the error handling out into a separate
+	object to allow more sophisticated error handling scenarios, however
+	you can achieve the same result by writing a module that traps 
+	errors and provides special handling.  So, here, we just provide three
+	simple and common possibilities for handling dispatch errors."
+
+	"Debug mode doesn't handle the error (you'll get a walkbalk)"
+	self isDebugMode ifTrue: [^aBlock value].
+
+	"Verbose mode will send a long stack dump to the browser"
+	self isVerboseMode ifTrue: 
+		[^aBlock on: Error do: 
+			[ :ex | 
+			self
+				detailedErrorResponseStatus: #serverError
+				exception: ex]].
+
+	"By default, operate in deployment mode (just the exception description is
+	displayed in the browser)"
+	^aBlock on: Error do: 
+		[ :ex | 
+		self
+			errorResponseStatus: #serverError
+			description: ex description]! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/12/2003 16:45'!
+handleResponseWritingError: anException
+	"Handle errors that occur when trying to write out a response."
+
+	"Debug mode doesn't handle the error (you'll get a walkbalk)"
+	self isDebugMode ifTrue: [^anException pass].
+
+	"Verbose mode will send a long stack dump to the browser"
+	self isVerboseMode ifTrue: 
+		[^self
+			detailedErrorResponseStatus: #serverError
+			exception: anException].
+
+	"By default, operate in deployment mode (just the exception description is
+	displayed in the browser)"
+	^self
+		errorResponseStatus: #serverError
+		description: anException description! !
+
+!HttpService methodsFor: 'initialize-release' stamp: 'svp 5/7/2003 04:18'!
+initialize
+
+	super initialize.
+	mode := #deployment.! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
+isDebugMode
+
+	^self mode == #debug! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 4/15/2003 22:36'!
+isDeploymentMode
+
+	^self isVerboseMode not and: [self isDebugMode not]! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
+isVerboseMode
+
+	^self mode == #verbose! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 5/7/2003 04:56'!
+keepAlive
+
+	^self withBindingsDo: [HttpAdaptor keepAlive]! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 5/7/2003 04:56'!
+keepAlive: aBool
+
+	self withBindingsDo: [HttpAdaptor keepAlive: aBool]! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:21'!
+mode
+	"<#deployment | #debug | #verbose > - Answers the debugging
+	mode of the receiver."
+
+	^mode! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:21'!
+mode: aSymbol
+	"aSymbol <#deployment | #debug | #verbose > - Sets the debugging
+	mode of the receiver."
+
+	mode := aSymbol! !
+
+!HttpService methodsFor: 'pluggable' stamp: 'svp 5/15/2003 16:49'!
+module: aComancheModule
+	"This message is useful if you wish to 
+	validate your module."
+
+	aComancheModule validate.
+	self plug: aComancheModule! !
+
+!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:20'!
+onRequestDispatch: aSelector to: anObject
+
+	self plug: 
+		(MessageSend 
+			receiver: anObject 
+			selector: aSelector 
+			arguments: #(nil))! !
+
+!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:32'!
+onRequestDo: plugBlock
+
+	self plug: plugBlock
+! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:46'!
+perceivedHostName
+
+	"Answer the host name as perceived by the client.  If there
+	is no current HttpRequest, fall back on the name as determined
+	on the server."
+
+	| request |
+	(request := HttpRequest current) ifNotNil: 
+		[^request networkHost nameString].
+
+	^self serverHostName
+! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:48'!
+perceivedPortNumber
+
+	"Answer the port number as it is perceived by the client (which could
+	be different from the port we are listening on if for example you are 
+	using port forwarding rules to reach your server).  If there is no 
+	current http request, fall back on the real port number that we are 
+	listening on."
+
+	| request |
+	(request := HttpRequest current) ifNotNil: 
+		[^request networkHost port].
+
+	^self portNumber
+! !
+
+!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:21'!
+plug
+
+	^plug! !
+
+!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:21'!
+plug: aMonadicValuable
+
+	plug := aMonadicValuable! !
+
+!HttpService methodsFor: 'startup and shutdown' stamp: 'lr 10/27/2010 18:27'!
+prepareForStartup
+	super prepareForStartup.
+	ServerHostName := nil.
+	self class initializeServerType.
+	"this is necessary to make it start on cog images"
+	process ifNotNil: [ :p |
+		| list |
+		list := p suspendingList.
+		(list isKindOf: Semaphore)
+			ifTrue: [ list signal ] ]! !
+
+!HttpService methodsFor: 'serving' stamp: 'svp 5/12/2003 17:26'!
+processHttpRequest: anHttpRequest
+	"Subclasses can override this method and answer an instance of an 
+	HttpResponse.  Alternatively, if we have a plug (typically a BlockContext
+	or a MessageSend), then invoke it."
+
+	plug ifNotNil: [^plug processHttpRequest: anHttpRequest].
+	^self subclassResponsibility
+! !
+
+!HttpService methodsFor: 'serving' stamp: 'brp 10/2/2004 15:17'!
+serve: aSocket 
+	self class current: self.
+	HttpAdaptor readAndWriteToSocket: aSocket service: self! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/15/2003 09:38'!
+serverDescription
+
+	^String streamContents: [ :strm | self serverDescriptionOn: strm]! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:44'!
+serverDescriptionOn: strm
+
+	strm nextPutAll: self serverType.
+	strm nextPutAll: ' Server at '.
+	strm nextPutAll: self perceivedHostName.
+	strm nextPutAll: ' Port '.
+	strm nextPutAll: self perceivedPortNumber asString.
+! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:45'!
+serverHostName
+
+	"Cache the host name (it can take several milliseconds to make this call
+	on some platforms.  The cache value will be reset every time the image
+	is started"
+
+	^ServerHostName ifNil:
+		[ServerHostName := NetNameResolver 
+								nameForAddress: NetNameResolver localHostAddress 
+								timeout: 5]
+! !
+
+!HttpService methodsFor: 'configuration' stamp: 'svp 4/22/2003 09:57'!
+serverType
+
+	^self class serverType! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
+setDebugMode
+
+	self mode: #debug! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:19'!
+setDeploymentMode
+
+	self mode: #deployment! !
+
+!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:19'!
+setVerboseMode
+
+	self mode: #verbose! !
+
+!HttpService methodsFor: 'starting and stopping' stamp: 'svp 4/22/2003 10:00'!
+start
+
+	self class initializeServerType.
+	^super start! !
+
+!HttpService class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:00'!
+current
+
+	^#'ComancheHttpService-Current' binding! !
+
+!HttpService class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:00'!
+current: anInstance
+
+	#'ComancheHttpService-Current' binding: anInstance! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'svp 4/22/2003 09:58'!
+initialize
+
+	self initializeServerType! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'gc 8/23/2008 17:57'!
+initializeServerType
+	"self initializeServerType"
+
+	ServerType := String streamContents: 
+					[:s | 
+					s nextPutAll: self serviceName.
+					s nextPutAll: '/'.
+					s nextPutAll: self version.
+					s nextPutAll: ' ('.
+					s nextPutAll: self platform.
+					s nextPutAll: ') '.
+					ComancheModule withAllSubclassesDo: 
+							[:modClass | 
+							modClass version isEmpty 
+								ifFalse: 
+									[s nextPutAll: modClass version.
+									s nextPut: $ ]]]! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'gsa 2/12/2013 15:59'!
+platform
+
+	"^Smalltalk os platformName"
+	"Cuis specific"
+	^Smalltalk platformName! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'svp 4/22/2003 09:53'!
+serverType
+
+	^ServerType! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'gc 8/23/2008 17:56'!
+serviceName
+	^ 'KomHttpServer'! !
+
+!HttpService class methodsFor: 'accessing' stamp: 'GiovanniCorriga 7/17/2010 14:24'!
+version
+
+	^'7.1.3'! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'gc 10/24/2007 10:09'!
+at: key
+	^ self at: key ifAbsent: [self errorKeyNotFound]
+! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'brp 10/2/2004 14:53'!
+at: key ifAbsent: aBlock 
+	| value valueSize |
+	value := super at: key ifAbsent: [^aBlock value].
+	valueSize := value size.
+	0 = valueSize 
+		ifTrue: 
+			["is this not absent?"
+
+			value := aBlock value].
+	value := (1 = valueSize) ifTrue: [value first] ifFalse: [value copy].
+	^value! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
+at: key put: value
+	(self includesKey: key)
+		ifFalse: [super at: key put: (OrderedCollection new)].
+
+	(self rawAt: key) add: value.
+
+	^value! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
+booleanAt: key
+	^(self rawAt: key) first = 'true'! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:34'!
+booleansAt: key
+	^(self rawAt: key) collect: [:value | value == 'true']! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
+numberAt: key
+	^[(self rawAt: key) first asNumber]
+		ifError: [:err :rcvr | Float nan]! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:34'!
+numbersAt: key
+	^(self rawAt: key) collect: [:value |
+		[value asNumber] ifError: [:err :rcvr | Float nan]]! !
+
+!HttpFormDictionary methodsFor: 'printing' stamp: 'Koubo 3/17/2002 11:55'!
+printElementsOn: aStream
+	aStream nextPut: $(.
+	self keysSortedSafely do:
+		[:key | aStream print: key; nextPutAll: '->'; print: (self rawAt: key); space].
+	aStream nextPut: $)! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
+rawAt: key
+	^super at: key ifAbsent: [self errorKeyNotFound]! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 5/2/2002 17:46'!
+rawAt: key ifAbsent: aBlock
+	^super at: key ifAbsent: aBlock! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
+stringAt: key
+	^(self rawAt: key) first! !
+
+!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:35'!
+stringsAt: key
+	^(self rawAt: key) copy! !
 
 !ComancheModule methodsFor: 'accessing' stamp: 'svp 4/15/2003 15:56'!
 addSubModule: aComancheModule
@@ -1105,18 +1602,885 @@ version
 
 	^''! !
 
-!Form methodsFor: '*KomHttpServer' stamp: 'bolot 2/14/2000 15:59'!
-asHttpResponseTo: request
-	^HttpResponse fromMIMEDocument: self asWebImage! !
+!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 4/16/2003 21:22'!
+pathPrefix
 
-!Form methodsFor: '*KomHttpServer' stamp: 'gc 10/24/2007 10:06'!
-asWebImage
-	"return a MIMEDocument"
-	| aStream |
-	aStream := (RWBinaryOrTextStream on: String new).
-	GIFReadWriter putForm: (self asFormOfDepth: 8) onStream: aStream.
-	aStream reset.
-	^MIMEDocument contentType: MIMEDocument contentTypeGif content: aStream! !
+	^pathPrefix! !
+
+!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 4/16/2003 21:22'!
+pathPrefix: aString
+
+	pathPrefix := aString! !
+
+!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 17:05'!
+processHttp
+
+	| path |
+	path := ModCore path.
+	"check if our prefix matches"
+	((path beginsWith: pathPrefix) and: 
+	[path size = pathPrefix size or: [(path at: (pathPrefix size + 1)) = $/]])
+		ifTrue: 
+			[ModCore path: (path copyFrom: pathPrefix size + 1 to: path size).
+			self processSubModules ifTrue: 
+				[ModCore path: path.
+				^true]].
+
+	"otherwise, reset the path to it's original setting and indicate 
+	to the caller that we have no response and ."
+	ModCore path: path.
+	^false! !
+
+!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 17:37'!
+authDb
+
+	^authDb! !
+
+!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 17:39'!
+authDb: anAuthDb
+
+	authDb := anAuthDb! !
+
+!ModAuth methodsFor: 'accessing' stamp: 'svp 5/16/2003 23:08'!
+authorizationResponse
+
+	| answer |
+	answer := HttpResponse
+		status: #unauthorized
+		contents: 'Authentication Required'.
+	answer fieldAt: 'WWW-Authenticate' put: 'Basic realm="', self realm,'"'.
+	^answer! !
+
+!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:22'!
+decodeAuthorization: aString
+
+	^(Base64MimeConverter mimeDecodeToChars:
+		(ReadStream on: (aString findTokens: ' ') last))
+			contents! !
+
+!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:34'!
+extractAuthInfo: request andDo: aBlock 
+
+	| authHeader user pass |
+	(authHeader := self extractAuthorization: request) ifNil: [^self].
+	user := self extractUser: authHeader.
+	pass := self extractPassword: authHeader.
+	(user isNil or: [pass isNil]) ifTrue: [^self].
+	^aBlock value: user value: pass
+
+! !
+
+!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 10:46'!
+extractAuthorization: request
+
+	^(request headerAt: 'Authorization' ifAbsent: [request headerAt: 'authorization' ifAbsent: []])
+		ifNotNilDo: [:auth | self decodeAuthorization: auth]! !
+
+!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:29'!
+extractPassword: auth
+
+	^auth ifNotNil: [auth copyAfter: $:]! !
+
+!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:28'!
+extractUser: auth
+
+	^auth ifNotNil: [auth copyUpTo: $:]! !
+
+!ModAuth methodsFor: 'processing' stamp: 'brp 10/2/2004 15:21'!
+processHttp
+	| request |
+	request := HttpRequest current.
+	self extractAuthInfo: request
+		andDo: 
+			[:user :password | 
+			(self verifyPassword: password forUser: user) 
+				ifTrue: 
+					[self class user: user.
+					^self processSubModules]].
+	HttpResponse current: self authorizationResponse.
+	^true! !
+
+!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 23:08'!
+realm
+
+	^realm ifNil: ['/']! !
+
+!ModAuth methodsFor: 'accessing' stamp: 'svp 4/18/2003 09:45'!
+realm: aString
+
+	realm := aString! !
+
+!ModAuth methodsFor: 'as yet unclassified' stamp: 'svp 5/14/2003 17:37'!
+verifyPassword: aPassword forUser: userName
+
+	^self authDb verifyPassword: aPassword forUser: userName
+! !
+
+!ModAuth class methodsFor: 'bindings' stamp: 'svp 5/15/2003 12:32'!
+user
+
+	^#'ModAuth-user' binding! !
+
+!ModAuth class methodsFor: 'bindings' stamp: 'svp 5/15/2003 12:33'!
+user: userName
+
+	^#'ModAuth-user' binding: userName! !
+
+!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 4/16/2003 08:38'!
+dirEntries: entries request: request on: strm padNamesTo: namePad padSizesTo: sizePad
+
+	request url ~= '/' ifTrue: [self parentEntry: request on: strm].
+	entries do: 
+		[ :entry |
+		self entry: entry on: strm padNamesTo: namePad padSizesTo: sizePad].! !
+
+!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 5/2/2003 23:09'!
+directoryListing: request directory: dir
+
+	| entries namePad sizePad |
+	entries := dir entries.
+	(request fields includesKey: 'S') ifTrue: 
+		[entries := entries sortBy: [ :a :b | a fileSize <= b fileSize ]].
+	(request fields includesKey: 'M') ifTrue: 
+		[entries := entries sortBy: [ :a :b | a modificationTime <= b modificationTime ]].
+	(request fields includesKey: 'N') ifTrue: 
+		[entries := entries sortBy: [ :a :b | a name <= b name ]].
+
+	namePad := (entries inject: 16 into: [ :max :ea | ea name size max: max ]) + 1.
+	sizePad := (entries inject: 4 into: [ :max :ea | ea fileSize printString size max: max ]) + 1.
+
+	^String streamContents: [ :strm |
+		strm nextPutAll: '<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">'.
+		strm nextPutAll: '<html><head><title>Index of '.
+		strm nextPutAll: request url.
+		strm nextPutAll: '</title></head><body><h1>Index of '.
+		strm nextPutAll: request url.
+		strm nextPutAll: '</h1><pre>      <a HREF="?N=A">Name</a>'.
+		strm nextPutAll: ((String new: (namePad - 4)) atAllPut: $ ; yourself).
+		strm nextPutAll: '<a HREF="?M=A">Last modified</a>    '.
+		strm nextPutAll: ((String new: (sizePad - 4)) atAllPut: $ ; yourself).
+		strm nextPutAll: '<a HREF="?S=A">Size</a><hr><br>'.
+		self 
+			dirEntries: entries 
+			request: request 
+			on: strm 
+			padNamesTo: namePad 
+			padSizesTo: sizePad.
+		strm nextPutAll: '</pre><hr><address>'.
+		strm nextPutAll: HttpService current serverDescription.
+		strm nextPutAll: '</address></body></html>'].! !
+
+!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 6/27/2003 16:39'!
+entry: entry on: strm padNamesTo: namePad padSizesTo: sizePad
+
+	| sizeString |
+	sizeString := entry fileSize printString.
+	entry isDirectory 
+		ifTrue: [strm nextPutAll: '[DIR]']
+		ifFalse: [strm nextPutAll: '     '].
+	strm nextPutAll: ' <a HREF="'.
+	strm nextPutAll: entry name.
+	entry isDirectory ifTrue: [strm nextPut: $/].
+	strm nextPutAll: '">'.
+	strm nextPutAll: entry name.
+	strm nextPutAll: '</a>'.
+	strm nextPutAll: ((String new: (namePad - entry name size)) atAllPut: $ ; yourself).
+	(Date fromSeconds: (entry modificationTime))
+		printOn: strm format: #(1 2 3 $- 2 1 2).
+	strm nextPut: $ .
+	(Time fromSeconds: (entry modificationTime))
+		print24: true showSeconds: false on: strm.
+	strm nextPutAll: ((String new: (sizePad - sizeString size)) atAllPut: $ ; yourself).
+	strm nextPutAll: sizeString.
+	strm nextPutAll: String crlf.
+! !
+
+!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 6/27/2003 16:48'!
+parentEntry: request on: strm
+
+	| tmp parentPath |
+	tmp := request url copyFrom: 1 to: (request url size - 1).
+	parentPath := self class splitPath: tmp to: [ :path :nm | path].
+	parentPath last = $/ ifFalse: [parentPath := parentPath, '/'].
+
+	strm nextPutAll: '[DIR] <a HREF="'.
+	strm nextPutAll: parentPath.
+	strm nextPutAll: '">Parent Directory</a>'.
+	strm nextPutAll: '<br>'.
+! !
+
+!ModAutoIndex methodsFor: 'processing' stamp: 'brp 10/2/2004 14:44'!
+processHttp
+	| dir request |
+	request := HttpRequest current.
+	(#(#GET #POST) includes: request method) ifFalse: [^false].
+	dir := ModDir serverDirectory.
+	HttpResponse current: (HttpResponse 
+				fromString: (self directoryListing: request directory: dir)).
+	^true! !
+
+!ModAutoIndex methodsFor: 'validation' stamp: 'svp 5/16/2003 13:01'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :ea | ea isDir ] 
+		ifNone: [problems add: 'AutoIndex module requires Dir module']! !
+
+!ModAutoIndex class methodsFor: 'as yet unclassified' stamp: 'svp 6/27/2003 16:43'!
+splitPath: fullName to: pathAndNameBlock
+	"Take the file name and convert it to the path name of a directory and a local file name within that directory. FileName must be of the form: <dirPath><delimiter><localName>, where <dirPath><delimiter> is optional. The <dirPath> part may contain delimiters."
+
+	| delimiter i dirName localName tmpName |
+	fullName last = $/
+		ifTrue: [tmpName := fullName copyFrom: 1 to: fullName size - 1]
+		ifFalse: [tmpName := fullName].
+	delimiter := $/.
+	(i := tmpName findLast: [:c | c = delimiter]) = 0
+		ifTrue:
+			[dirName := String new.
+			localName := tmpName]
+		ifFalse:
+			[dirName := tmpName copyFrom: 1 to: (i - 1 max: 1).
+			localName := tmpName copyFrom: i + 1 to: tmpName size].
+
+	^ pathAndNameBlock value: dirName value: localName! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/18/2003 11:58'!
+isCore
+
+	^true! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:18'!
+optionsResponse
+	| opts |
+	opts := self class options ifNil: ['GET,HEAD,POST,OPTIONS,TRACE'].
+	^(HttpResponse fromString: '')
+		fieldAt: 'Allow' put: opts;
+		yourself! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:08'!
+processHttp
+	| request method |
+	request := HttpRequest current.
+	self class
+		method: (method := request method);
+		path: request url;
+		host: request networkHost;
+		serverRoot: self serverRoot.
+	method = 'TRACE' 
+		ifTrue: 
+			[HttpResponse current: (self traceResponse: request).
+			^true].
+	self processSubModules ifTrue: [^true].
+	method = 'OPTIONS' 
+		ifTrue: 
+			[HttpResponse current: self optionsResponse.
+			^true].
+	^false! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/18/2003 11:49'!
+serverRoot
+
+	^serverRoot
+! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 14:53'!
+serverRoot: aDirOrString 
+	serverRoot := aDirOrString isString 
+		ifTrue: [FileDirectory on: aDirOrString]
+		ifFalse: [aDirOrString]! !
+
+!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/23/2003 22:33'!
+traceResponse: request
+
+	^HttpResponse fromString:
+		(String streamContents: [ :strm | request writeOn: strm ])! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 13:28'!
+host
+
+	^#'ModCore-Host' binding! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 13:28'!
+host: aString
+
+	^#'ModCore-Host' binding: aString! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 21:39'!
+method
+
+	^#'ModCore-Method' binding! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 21:40'!
+method: methodString
+
+	#'ModCore-Method' binding: methodString! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 22:22'!
+options
+
+	^#'ModCore-Options' binding! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 22:22'!
+options: methodsString
+
+	^#'ModCore-Options' binding: methodsString! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:28'!
+path
+
+	^#'ModCore-Path' binding! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:28'!
+path: aString
+
+	^#'ModCore-Path' binding: aString! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/18/2003 11:51'!
+serverRoot
+
+	^#'ModCore-ServerRoot' binding! !
+
+!ModCore class methodsFor: 'bindings' stamp: 'svp 4/18/2003 11:51'!
+serverRoot: aFileDirectory
+
+	^#'ModCore-ServerRoot' binding: aFileDirectory! !
+
+!ModDir methodsFor: 'as yet unclassified' stamp: 'svp 4/15/2003 17:06'!
+directoryIndex
+
+	^directoryIndex ifNil: [directoryIndex := OrderedCollection new]! !
+
+!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 14:52'!
+directoryIndex: aCollectionOrString 
+	directoryIndex := aCollectionOrString isString 
+		ifTrue: [aCollectionOrString findTokens: ' ']
+		ifFalse: [aCollectionOrString]! !
+
+!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:45'!
+directoryIndexExists: dir 
+	| fname |
+	
+	fname := self directoryIndex detect: [:ea | dir fileExists: ea]
+				ifNone: [^false].
+
+	"Our directory exists, set the full file name so that
+	ModFile will detect and serve the index file (note, if no ModFile
+	gets processed after this module, then a doc not found will be returned)"
+	
+	ModDoc relativeFilePath: ModDoc relativeFilePath , fname.
+	^true! !
+
+!ModDir methodsFor: 'testing' stamp: 'svp 5/15/2003 17:27'!
+isDir
+
+	^true! !
+
+!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:30'!
+processHttp
+	| filePath dir request |
+	request := HttpRequest current.
+	filePath := self class fullFilePath.
+	(self class directoryExists: (dir := FileDirectory on: filePath)) 
+		ifFalse: [^false].
+
+	"If the url does not end in a slash, then redirect to add the slash"
+	request url last ~= $/ 
+		ifTrue: 
+			[self redirectWithTrailingSlash: request.
+			^true].
+	(self directoryIndexExists: dir) ifTrue: [^false].
+	self class serverDirectory: dir.
+	^ self processSubModules ! !
+
+!ModDir methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 23:09'!
+redirectWithTrailingSlash: request
+
+	| location |
+	location := request url, '/'.
+	HttpResponse current: 
+		((HttpResponse
+			status: #tempMoved
+			contents: 'Temporarily moved to: <A HREF="', location, '">', location, '</A>')
+		fieldAt: 'Location' put: location;
+		fieldAt: 'URI' put: location;
+		yourself)! !
+
+!ModDir methodsFor: 'validation' stamp: 'svp 5/16/2003 13:02'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :ea | ea isDoc ] 
+		ifNone: [problems add: 'Dir module requires a Doc module']! !
+
+!ModDir class methodsFor: 'tests' stamp: 'GuillermoPolito 10/6/2010 18:10'!
+directoryExists: aFileDirectory
+	"The Mac implementation of FileDirectory>>exists answers true,
+	even when the path specified is a file (not a directory) (as of
+	22 May 2003)...this differs from the Unix and Windows VMs...so 
+	this is a little hack that should work on all platforms...when the
+	Mac VM is correct, we should change this code to simply use
+	FileDirectory>>exists"
+
+	"Ordinarily, just do:"
+	Smalltalk os platformName ~= 'Mac OS' ifTrue: [^aFileDirectory exists].
+
+	"But!! Because of Mac idiosyncracies, do:"
+	^aFileDirectory exists and: 
+		[aFileDirectory containingDirectory directoryNames 
+			includes: aFileDirectory localName].
+
+	! !
+
+!ModDir class methodsFor: 'accessing' stamp: 'tbn 11/10/2004 11:38'!
+fullFilePath
+	^ModDoc fullFilePath! !
+
+!ModDir class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:42'!
+serverDirectory
+
+	^#'ModDir-ServerDirectory' binding! !
+
+!ModDir class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:42'!
+serverDirectory: aFileDirectory
+
+	#'ModDir-ServerDirectory' binding: aFileDirectory! !
+
+!ModDoc methodsFor: 'accessing' stamp: 'svp 4/15/2003 16:00'!
+documentRoot
+
+	^documentRoot! !
+
+!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 14:52'!
+documentRoot: aDirectoryOrString 
+	documentRoot := aDirectoryOrString isString 
+		ifTrue: [FileDirectory on: aDirectoryOrString]
+		ifFalse: [aDirectoryOrString]! !
+
+!ModDoc methodsFor: 'testing' stamp: 'svp 5/15/2003 15:54'!
+isDoc
+
+	^true! !
+
+!ModDoc methodsFor: 'error handling' stamp: 'svp 4/15/2003 16:32'!
+notFoundResponseFor: request
+
+	^self
+		errorResponseStatus: #notFound
+		description: ('The requested URL ', request url, ' was not found on this server').
+! !
+
+!ModDoc methodsFor: 'printing' stamp: 'svp 4/15/2003 16:27'!
+printOn: strm
+
+	super printOn: strm.
+	strm nextPut: $(.
+	self documentRoot pathName printOn: strm.
+	strm nextPut: $).! !
+
+!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 15:21'!
+processHttp
+	"Examine the path from ModCore and set the bindings for
+	document root and relative file path"
+
+	| relativeFilePath path |
+	path := ModCore path.
+	relativeFilePath := self relativeFilePathFrom: path.
+	self class
+		documentRoot: self documentRoot;
+		relativeFilePath: relativeFilePath.
+	^ self processSubModules.! !
+
+!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 15:40'!
+relativeFilePathFrom: path 
+	^((path notEmpty and: [path first = $/]) 
+		ifTrue: [path copyFrom: 2 to: path size]
+		ifFalse: ['']) translateWith: DelimiterTranslation! !
+
+!ModDoc methodsFor: 'validation' stamp: 'svp 5/16/2003 13:02'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :module | module isCore ]
+		ifNone: [problems add: 'Doc module requires a Core module']! !
+
+!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/15/2003 18:02'!
+documentRoot
+	"<FileDirectory> The root of the document tree for the current request"
+
+	^#'ModCore-DocumentRoot' binding! !
+
+!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/15/2003 16:02'!
+documentRoot: aFileDirectory
+
+	#'ModCore-DocumentRoot' binding: aFileDirectory! !
+
+!ModDoc class methodsFor: 'bindings' stamp: 'GuillermoPolito 10/6/2010 18:10'!
+fullFilePath
+	"<String> The full path name to the file or directory on the server
+	indicated by the current HttpRequest."
+
+	"Ordinarily, just use the following:"
+	(Smalltalk os platformName ~= 'Mac OS')
+		ifTrue: [^self documentRoot fullNameFor: self relativeFilePath].
+
+	"But!! Because of Mac idiosyncracies, we must do:"
+	^((self relativeFilePath findTokens: FileDirectory pathNameDelimiter asString)
+		inject: self documentRoot into: 
+			[ :dir :pathPart |
+			FileDirectory on: (dir fullNameFor: pathPart)]) fullName
+			! !
+
+!ModDoc class methodsFor: 'initialization' stamp: 'svp 4/15/2003 16:19'!
+initialize
+	"self initialize"
+
+	DelimiterTranslation := (0 to: 255) as: ByteArray.
+	DelimiterTranslation 
+		at: ($/ asciiValue + 1) 
+		put: FileDirectory pathNameDelimiter asciiValue.
+
+	"Register this class for startUp notification (in case we are started on a
+	platform with a differen path name delimiter"
+	Smalltalk addToStartUpList: self.
+! !
+
+!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:12'!
+relativeFilePath
+	"<String> The relative path name to the file or directory on the server
+	indicated by the current HttpRequest"
+
+	^#'ModCore-RelativeFilePath' binding ! !
+
+!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:13'!
+relativeFilePath: aPathName
+
+	^#'ModCore-RelativeFilePath' binding: aPathName! !
+
+!ModDoc class methodsFor: 'initialization' stamp: 'svp 4/15/2003 16:19'!
+startUp
+	"When we start up, force the rebuilding of the DelimiterTranslation
+	array (in case we are started on a platform with a different delimiter)."
+
+	self initialize! !
+
+!ModVhostDoc methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:53'!
+documentRoot
+
+	^super documentRoot directoryNamed: ModVhost string! !
+
+!ModVhostDoc methodsFor: 'validation' stamp: 'svp 5/16/2003 13:04'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :module | module isVhost ]
+		ifNone: [self error: 'VhostDoc module requires a Vhost module']! !
+
+!ModFile methodsFor: 'processing' stamp: 'gk 8/17/2005 23:52'!
+processHttp
+	"This method uses StandardFileStream explicitly instead
+	of relying on FileStream class>>concreteStream, since in this
+	case we just need to return the file 'as is' binary."
+
+	| fullFilePath method |
+	method := ModCore method.
+	(#(#GET #POST) includes: method) ifFalse: [^false].
+	fullFilePath := ModDoc fullFilePath.
+	(FileStream isAFileNamed: fullFilePath) ifFalse: [^false].
+	self processSubModules ifTrue: [^true].
+	HttpResponse current: (HttpResponse 
+				fromStream: (StandardFileStream readOnlyFileNamed: fullFilePath)).
+	^true! !
+
+!ModFile methodsFor: 'validation' stamp: 'svp 5/16/2003 13:03'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :ea | ea isDoc ] 
+		ifNone: [problems add: 'File module requires a Doc module']! !
+
+!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
+doPostProcessingFor: request response: response
+	"This method is called after the response has been written, we need 
+	to log the request/response pair"
+
+	self logger nextPut: (Array with: request with: response)! !
+
+!ModLog methodsFor: 'testing' stamp: 'svp 5/16/2003 12:10'!
+isLog
+
+	^true! !
+
+!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
+logger
+
+	^logger! !
+
+!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
+logger: aStream
+
+	logger := aStream! !
+
+!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:15'!
+processHttp
+
+	HttpAdaptor current addPostProcessor: self.
+	^self processSubModules! !
+
+!ModMulti methodsFor: 'processing' stamp: 'svp 4/16/2003 21:10'!
+processHttp
+
+	^self processSubModules! !
+
+!ModNotFound methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 17:08'!
+processHttp
+
+	HttpResponse current: 
+		(HttpAdaptor current notFoundResponseFor: HttpRequest current).
+	^true! !
+
+!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:11'!
+basicExtractSession: aRequest ifAbsent: absentBlock
+	"PRIVATE: answer the current session based on the 'SessionID' cookie"
+
+	aRequest cookies
+		at: #SessionID
+		ifPresent: [ :sid | ^sessions at: sid ifAbsent: absentBlock].
+	^absentBlock value
+! !
+
+!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:18'!
+checkForCleanup
+	"PRIVATE: run the cleanup if the last cleanup was more than
+	1 minute ago"
+
+	lastCleanup + 60 < Time totalSeconds
+		ifTrue: [self cleanup]! !
+
+!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:05'!
+cleanup
+	"PRIVATE: iterate over all sessions and remove stale ones"
+
+	| session cutoff |
+	lastCleanup := Time totalSeconds.
+	cutoff := lastCleanup - secondsToLive.
+	sessions keys do: 
+		[:key | 
+		session := sessions at: key.
+		(session lastAccess < cutoff) ifTrue: 
+			[sessions removeKey: key]]! !
+
+!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:10'!
+extractSession: aRequest 
+	"<KomSession> extract or create a session for aRequest"
+	| session |
+	mutex critical: 
+		[self checkForCleanup.
+		session := self 
+					basicExtractSession: aRequest 
+					ifAbsent: [self newSession].
+		session touch].
+	^ session! !
+
+!ModSession methodsFor: 'initialization' stamp: 'brp 10/2/2004 14:34'!
+initialize
+	super initialize.
+	
+	sessions := Dictionary new.
+	mutex := Semaphore forMutualExclusion.
+	lastCleanup := Time totalSeconds.
+	"30 minutes"
+	secondsToLive := 30 * 60! !
+
+!ModSession methodsFor: 'testing' stamp: 'svp 5/15/2003 16:05'!
+isSession
+
+	^true! !
+
+!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:11'!
+newSession
+	"PRIVATE: creates a new Session and stores it"
+	| session |
+	session := KomSession new.
+	sessions at: session id put: session.
+	^ session! !
+
+!ModSession methodsFor: 'processing' stamp: 'svp 5/14/2003 01:14'!
+processHttp
+
+	| session |
+	session := self extractSession: HttpRequest current.
+	KomSession current: session.
+	self processSubModules ifFalse: [^false].
+	HttpResponse current
+		setCookieName: #SessionID
+		value: session id
+		path: '/'.
+	^ true! !
+
+!ModSession methodsFor: 'accessing' stamp: 'svp 5/14/2003 01:12'!
+secondsToLive: anInteger
+
+	secondsToLive := anInteger! !
+
+!ModSession methodsFor: 'enumeration' stamp: 'gk 11/6/2003 17:12'!
+sessionsDo: aBlock
+	"Iterate over sessions."
+
+	^ sessions valuesDo: aBlock! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'lr 4/15/2010 08:52'!
+getOffsetAt: pos
+
+	| temp end val |
+	temp := self template.
+	end := pos.
+	(temp at: end) == $- ifTrue: [end := end + 1].
+	[val := temp at: end.
+	((val >= $0) and: [val <= $9 and: [temp size > end]])] whileTrue: [end := end + 1].
+	((val >= $0) and: [val <= $9]) ifTrue: [end := end + 1].
+	((end <= temp size) and: [(temp at: end) = $+])
+		ifTrue: [^temp copyFrom: pos to: end]
+		ifFalse: [^temp copyFrom: pos to: (end - 1)]
+! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:50'!
+getSubstituteAt: percentPosition host: aHost andDo: aBlock
+
+	| temp nameIndex nextPos letterIndex sub |
+	temp := self template.
+
+	temp size <= percentPosition ifTrue: 
+		[aBlock value: '%'. 
+		^percentPosition + 1].
+
+	(temp at: (percentPosition + 1)) = $% ifTrue: 
+		[aBlock value: '%'. 
+		^percentPosition + 2].
+
+	(temp at: (percentPosition + 1)) = $p ifTrue: 
+		[aBlock value: aHost port asString. 
+		^percentPosition + 2].
+
+	nameIndex := self getOffsetAt: (percentPosition + 1).
+	nextPos := percentPosition + 1 + nameIndex size.
+
+	((temp size >= nextPos) and: [(temp at: nextPos) = $.])
+		ifTrue: 
+			[letterIndex := self getOffsetAt: (nextPos + 1).
+			nextPos := nextPos + letterIndex size + 1]
+		ifFalse: 
+			[letterIndex := '0'].
+
+	[sub := aHost vhostName: nameIndex letter: letterIndex]
+		on: Error do: [ :ex | aBlock value: '%'. ^percentPosition + 1].
+
+	aBlock value: sub.
+	^nextPos
+! !
+
+!ModVhost methodsFor: 'testing' stamp: 'svp 5/15/2003 17:24'!
+isVhost
+
+	^true! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:17'!
+processHttp
+	self class string: (self stringFromHost: ModCore host).
+	^self processSubModules! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:50'!
+stringFromHost: aHost
+
+	| pos temp done nextPercent |
+	pos := 1.
+	temp := self template.
+	done := false.
+
+	^String streamContents: [ :strm |
+		[done] whileFalse: 
+			[nextPercent := temp indexOf: $% startingAt: pos.
+			nextPercent = 0 
+				ifTrue:
+					[strm nextPutAll: (temp copyFrom: pos to: temp size).
+					done := true.]
+				ifFalse: 
+					[strm nextPutAll: (temp copyFrom: pos to: (nextPercent - 1)).
+					pos := self 
+						getSubstituteAt: nextPercent 
+						host: aHost
+						andDo: [ :sub | strm nextPutAll: sub ].
+					pos > temp size ifTrue: [done := true]]]].! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:48'!
+template
+
+	^template ifNil: [template := '%0']! !
+
+!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:49'!
+template: aString
+
+	template := aString! !
+
+!ModVhost methodsFor: 'validation' stamp: 'svp 5/16/2003 13:03'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :module | module isCore ]
+		ifNone: [problems add: 'Vhost module requires a Core module']! !
+
+!ModVhost class methodsFor: 'instance creation' stamp: 'svp 4/16/2003 21:06'!
+pathTemplate: aString
+
+	^self new 
+		pathTemplate: aString; 
+		yourself! !
+
+!ModVhost class methodsFor: 'bindings' stamp: 'svp 4/17/2003 16:51'!
+string
+
+	^#'ModVhost-String' binding! !
+
+!ModVhost class methodsFor: 'bindings' stamp: 'svp 4/17/2003 16:51'!
+string: aString
+
+	#'ModVhost-String' binding: aString! !
+
+!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:44'!
+host
+
+	^host! !
+
+!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:44'!
+host: aString
+
+	host := aString! !
+
+!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:47'!
+processHttp
+	"Get the host string and if we match, then process
+	our subModules."
+
+	| hostString |
+	hostString := ModVhost string.
+	host = hostString ifTrue:
+		[self processSubModules ifTrue: [^true]].
+	^false
+! !
+
+!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/16/2003 13:04'!
+validateForStack: anArray problems: problems
+
+	super validateForStack: anArray problems: problems.
+	anArray 
+		detect: [ :module | module isVhost ]
+		ifNone: [self error: 'VhostAlias module requires a Vhost module']! !
 
 !HttpAdaptor methodsFor: 'processing' stamp: 'svp 4/23/2003 00:13'!
 addConnectionHeaders: response request: request count: count
@@ -1404,87 +2768,6 @@ timezoneOffset
 	"The offset (as Duration) of the server's timezone relative to GMT."
 
 	^DateAndTime localOffset! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'gc 10/24/2007 10:09'!
-at: key
-	^ self at: key ifAbsent: [self errorKeyNotFound]
-! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'brp 10/2/2004 14:53'!
-at: key ifAbsent: aBlock 
-	| value valueSize |
-	value := super at: key ifAbsent: [^aBlock value].
-	valueSize := value size.
-	0 = valueSize 
-		ifTrue: 
-			["is this not absent?"
-
-			value := aBlock value].
-	value := (1 = valueSize) ifTrue: [value first] ifFalse: [value copy].
-	^value! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
-at: key put: value
-	(self includesKey: key)
-		ifFalse: [super at: key put: (OrderedCollection new)].
-
-	(self rawAt: key) add: value.
-
-	^value! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
-booleanAt: key
-	^(self rawAt: key) first = 'true'! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:34'!
-booleansAt: key
-	^(self rawAt: key) collect: [:value | value == 'true']! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
-numberAt: key
-	^[(self rawAt: key) first asNumber]
-		ifError: [:err :rcvr | Float nan]! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:34'!
-numbersAt: key
-	^(self rawAt: key) collect: [:value |
-		[value asNumber] ifError: [:err :rcvr | Float nan]]! !
-
-!HttpFormDictionary methodsFor: 'printing' stamp: 'Koubo 3/17/2002 11:55'!
-printElementsOn: aStream
-	aStream nextPut: $(.
-	self keysSortedSafely do:
-		[:key | aStream print: key; nextPutAll: '->'; print: (self rawAt: key); space].
-	aStream nextPut: $)! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
-rawAt: key
-	^super at: key ifAbsent: [self errorKeyNotFound]! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 5/2/2002 17:46'!
-rawAt: key ifAbsent: aBlock
-	^super at: key ifAbsent: aBlock! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'Koubo 3/17/2002 11:55'!
-stringAt: key
-	^(self rawAt: key) first! !
-
-!HttpFormDictionary methodsFor: 'accessing' stamp: 'bolot 6/22/2001 12:35'!
-stringsAt: key
-	^(self rawAt: key) copy! !
-
-!HttpPartialResponse methodsFor: 'accessing' stamp: 'bolot 1/11/2001 17:49'!
-producerBlock: aBlock
-	producerBlock := aBlock! !
-
-!HttpPartialResponse methodsFor: 'responding' stamp: 'bolot 1/11/2001 17:50'!
-pvtWriteContentLengthOn: aStream
-	"do nothing, since the length is not known yet"
-	self flag: #todo. "in HTTP/1.1, can set chunking"! !
-
-!HttpPartialResponse methodsFor: 'responding' stamp: 'bolot 1/11/2001 17:49'!
-pvtWriteContentsOn: aStream
-	producerBlock value: aStream! !
 
 !HttpRequest methodsFor: 'user authentication' stamp: 'bolot 3/11/2002 17:26'!
 clearPassword
@@ -2810,317 +4093,18 @@ statusSymbolFor: aCode
 	^StatusSymbols at: aCode asNumber ifAbsent: [#serverError]
 ! !
 
-!HttpService methodsFor: 'error handling' stamp: 'brp 10/2/2004 15:51'!
-detailedErrorResponseStatus: aSymbol exception: anException 
-	^self errorResponseStatus: aSymbol
-		description: '<pre><b>' , anException description , '</b><br><br>' 
-				, anException signalerContext longStack , '</pre>'! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/16/2003 23:08'!
-errorResponseStatus: aSymbol description: aString
-
-	^HttpResponse
-		status: aSymbol
-		contents: 
-'<!!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>', (HttpResponse statusCodeFor: aSymbol), ' ', (HttpResponse statusDescriptionFor: aSymbol), '</title>
-</head><body>
-<h1>', (HttpResponse statusDescriptionFor: aSymbol),'</h1>
-', aString, '<p>
-<hr>
-<address>', self serverDescription,'</address>
-</body></html>'! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/12/2003 16:27'!
-handleDispatchErrorsIn: aBlock
-	"Note: We could break the error handling out into a separate
-	object to allow more sophisticated error handling scenarios, however
-	you can achieve the same result by writing a module that traps 
-	errors and provides special handling.  So, here, we just provide three
-	simple and common possibilities for handling dispatch errors."
-
-	"Debug mode doesn't handle the error (you'll get a walkbalk)"
-	self isDebugMode ifTrue: [^aBlock value].
-
-	"Verbose mode will send a long stack dump to the browser"
-	self isVerboseMode ifTrue: 
-		[^aBlock on: Error do: 
-			[ :ex | 
-			self
-				detailedErrorResponseStatus: #serverError
-				exception: ex]].
-
-	"By default, operate in deployment mode (just the exception description is
-	displayed in the browser)"
-	^aBlock on: Error do: 
-		[ :ex | 
-		self
-			errorResponseStatus: #serverError
-			description: ex description]! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/12/2003 16:45'!
-handleResponseWritingError: anException
-	"Handle errors that occur when trying to write out a response."
-
-	"Debug mode doesn't handle the error (you'll get a walkbalk)"
-	self isDebugMode ifTrue: [^anException pass].
-
-	"Verbose mode will send a long stack dump to the browser"
-	self isVerboseMode ifTrue: 
-		[^self
-			detailedErrorResponseStatus: #serverError
-			exception: anException].
-
-	"By default, operate in deployment mode (just the exception description is
-	displayed in the browser)"
-	^self
-		errorResponseStatus: #serverError
-		description: anException description! !
-
-!HttpService methodsFor: 'initialize-release' stamp: 'svp 5/7/2003 04:18'!
-initialize
-
-	super initialize.
-	mode := #deployment.! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
-isDebugMode
-
-	^self mode == #debug! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 4/15/2003 22:36'!
-isDeploymentMode
-
-	^self isVerboseMode not and: [self isDebugMode not]! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
-isVerboseMode
-
-	^self mode == #verbose! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 5/7/2003 04:56'!
-keepAlive
-
-	^self withBindingsDo: [HttpAdaptor keepAlive]! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 5/7/2003 04:56'!
-keepAlive: aBool
-
-	self withBindingsDo: [HttpAdaptor keepAlive: aBool]! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:21'!
-mode
-	"<#deployment | #debug | #verbose > - Answers the debugging
-	mode of the receiver."
-
-	^mode! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:21'!
-mode: aSymbol
-	"aSymbol <#deployment | #debug | #verbose > - Sets the debugging
-	mode of the receiver."
-
-	mode := aSymbol! !
-
-!HttpService methodsFor: 'pluggable' stamp: 'svp 5/15/2003 16:49'!
-module: aComancheModule
-	"This message is useful if you wish to 
-	validate your module."
-
-	aComancheModule validate.
-	self plug: aComancheModule! !
-
-!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:20'!
-onRequestDispatch: aSelector to: anObject
-
-	self plug: 
-		(MessageSend 
-			receiver: anObject 
-			selector: aSelector 
-			arguments: #(nil))! !
-
-!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:32'!
-onRequestDo: plugBlock
-
-	self plug: plugBlock
-! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:46'!
-perceivedHostName
-
-	"Answer the host name as perceived by the client.  If there
-	is no current HttpRequest, fall back on the name as determined
-	on the server."
-
-	| request |
-	(request := HttpRequest current) ifNotNil: 
-		[^request networkHost nameString].
-
-	^self serverHostName
-! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:48'!
-perceivedPortNumber
-
-	"Answer the port number as it is perceived by the client (which could
-	be different from the port we are listening on if for example you are 
-	using port forwarding rules to reach your server).  If there is no 
-	current http request, fall back on the real port number that we are 
-	listening on."
-
-	| request |
-	(request := HttpRequest current) ifNotNil: 
-		[^request networkHost port].
-
-	^self portNumber
-! !
-
-!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:21'!
-plug
-
-	^plug! !
-
-!HttpService methodsFor: 'pluggable' stamp: 'svp 4/9/2003 00:21'!
-plug: aMonadicValuable
-
-	plug := aMonadicValuable! !
-
-!HttpService methodsFor: 'startup and shutdown' stamp: 'lr 10/27/2010 18:27'!
-prepareForStartup
-	super prepareForStartup.
-	ServerHostName := nil.
-	self class initializeServerType.
-	"this is necessary to make it start on cog images"
-	process ifNotNil: [ :p |
-		| list |
-		list := p suspendingList.
-		(list isKindOf: Semaphore)
-			ifTrue: [ list signal ] ]! !
-
-!HttpService methodsFor: 'serving' stamp: 'svp 5/12/2003 17:26'!
-processHttpRequest: anHttpRequest
-	"Subclasses can override this method and answer an instance of an 
-	HttpResponse.  Alternatively, if we have a plug (typically a BlockContext
-	or a MessageSend), then invoke it."
-
-	plug ifNotNil: [^plug processHttpRequest: anHttpRequest].
-	^self subclassResponsibility
-! !
-
-!HttpService methodsFor: 'serving' stamp: 'brp 10/2/2004 15:17'!
-serve: aSocket 
-	self class current: self.
-	HttpAdaptor readAndWriteToSocket: aSocket service: self! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/15/2003 09:38'!
-serverDescription
-
-	^String streamContents: [ :strm | self serverDescriptionOn: strm]! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:44'!
-serverDescriptionOn: strm
-
-	strm nextPutAll: self serverType.
-	strm nextPutAll: ' Server at '.
-	strm nextPutAll: self perceivedHostName.
-	strm nextPutAll: ' Port '.
-	strm nextPutAll: self perceivedPortNumber asString.
-! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/16/2003 13:45'!
-serverHostName
-
-	"Cache the host name (it can take several milliseconds to make this call
-	on some platforms.  The cache value will be reset every time the image
-	is started"
-
-	^ServerHostName ifNil:
-		[ServerHostName := NetNameResolver 
-								nameForAddress: NetNameResolver localHostAddress 
-								timeout: 5]
-! !
-
-!HttpService methodsFor: 'configuration' stamp: 'svp 4/22/2003 09:57'!
-serverType
-
-	^self class serverType! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:18'!
-setDebugMode
-
-	self mode: #debug! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:19'!
-setDeploymentMode
-
-	self mode: #deployment! !
-
-!HttpService methodsFor: 'error handling' stamp: 'svp 5/7/2003 04:19'!
-setVerboseMode
-
-	self mode: #verbose! !
-
-!HttpService methodsFor: 'starting and stopping' stamp: 'svp 4/22/2003 10:00'!
-start
-
-	self class initializeServerType.
-	^super start! !
-
-!HttpService class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:00'!
-current
-
-	^#'ComancheHttpService-Current' binding! !
-
-!HttpService class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:00'!
-current: anInstance
-
-	#'ComancheHttpService-Current' binding: anInstance! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'svp 4/22/2003 09:58'!
-initialize
-
-	self initializeServerType! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'gc 8/23/2008 17:57'!
-initializeServerType
-	"self initializeServerType"
-
-	ServerType := String streamContents: 
-					[:s | 
-					s nextPutAll: self serviceName.
-					s nextPutAll: '/'.
-					s nextPutAll: self version.
-					s nextPutAll: ' ('.
-					s nextPutAll: self platform.
-					s nextPutAll: ') '.
-					ComancheModule withAllSubclassesDo: 
-							[:modClass | 
-							modClass version isEmpty 
-								ifFalse: 
-									[s nextPutAll: modClass version.
-									s nextPut: $ ]]]! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'gsa 2/12/2013 15:59'!
-platform
-
-	"^Smalltalk os platformName"
-	"Cuis specific"
-	^Smalltalk platformName! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'svp 4/22/2003 09:53'!
-serverType
-
-	^ServerType! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'gc 8/23/2008 17:56'!
-serviceName
-	^ 'KomHttpServer'! !
-
-!HttpService class methodsFor: 'accessing' stamp: 'GiovanniCorriga 7/17/2010 14:24'!
-version
-
-	^'7.1.3'! !
+!HttpPartialResponse methodsFor: 'accessing' stamp: 'bolot 1/11/2001 17:49'!
+producerBlock: aBlock
+	producerBlock := aBlock! !
+
+!HttpPartialResponse methodsFor: 'responding' stamp: 'bolot 1/11/2001 17:50'!
+pvtWriteContentLengthOn: aStream
+	"do nothing, since the length is not known yet"
+	self flag: #todo. "in HTTP/1.1, can set chunking"! !
+
+!HttpPartialResponse methodsFor: 'responding' stamp: 'bolot 1/11/2001 17:49'!
+pvtWriteContentsOn: aStream
+	producerBlock value: aStream! !
 
 !KomAuthDb methodsFor: 'accessing' stamp: 'svp 5/14/2003 17:20'!
 addUser: aString withPassword: password
@@ -3179,113 +4163,6 @@ new
 
 	^super new initialize! !
 
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:47'!
-addStream: aStream
-	"Add a new output stream to the logger"
-
-	self streams add: aStream.
-	^aStream! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:47'!
-attachTheTranscript
-
-	^self addStream: Transcript.
-! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'gsa 2/12/2013 16:11'!
-attachTranscript
-	self detachTheTranscript.
-	^(self streams detect: [:ea | ea isTranscriptStream] ifNone: [nil]) 
-		"ifNil: [self addStream: TranscriptStream new]"
-		"Cuis Specific code"
-			ifNil: [self addStream: Transcript new]! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:49'!
-detachTheTranscript
-
-	self removeStream: Transcript.
-	^Transcript! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:23'!
-detachTranscripts
-	(self streams select: [:ea | ea isTranscriptStream]) 
-		do: [:ea | self removeStream: ea]! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:36'!
-logEntryFor: request response: response
-	"This is the Common Log Format (CLF)"
-
-	^String streamContents: 
-		[ :strm |
-		strm
-			nextPutAll: request remoteAddress asIpString;
-			nextPutAll: ' - ';  "We don't bother with the ident string"
-			nextPutAll: (ModAuth user ifNil: ['-']);
-			nextPut: $ .
-		(TimeStamp fromSeconds: request timestamp)
-			printCLFFormatOn: strm.
-		strm nextPutAll: ' "'.
-		request firstLineOn: strm.
-		strm nextPutAll: '" '.
-		strm nextPutAll: response statusCode.
-		strm nextPut: $ .
-		strm nextPutAll: (response contentLength ifNil: ['-']) asString.
-		strm nextPut: Character cr].
-
-
-! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 11:57'!
-next
-
-	self shouldNotImplement! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:50'!
-nextPut: anArray 
-	| logEntry |
-	logEntry := self logEntryFor: anArray first response: anArray second.
-	self streams do: 	[:strm | strm nextPutAll: logEntry; endEntry]! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:50'!
-openTranscript
-
-	self attachTranscript openLabel: 'Comanche Logger'! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:49'!
-removeStream: aStream
-	"Remove an output stream to the logger"
-
-	self streams remove: aStream ifAbsent: [].
-	^aStream! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
-streams
-
-	^streams! !
-
-!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
-streams: aStream
-
-	streams := aStream! !
-
-!KomLogger class methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
-on: aStream
-
-	^self basicNew
-		streams: (Set new add: aStream; yourself);
-		yourself! !
-
-!KomModuleValidator methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 13:10'!
-doComancheModule: aComancheModule
-	"This method assumes that module traversal happens in depth first order"
-
-	aComancheModule validateContext: self problems! !
-
-!KomModuleValidator methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 12:50'!
-problems
-
-	^problems ifNil: [problems := OrderedCollection new]! !
-
 !KomModuleVisitor methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 12:30'!
 doBlock: aBlock
 
@@ -3313,6 +4190,17 @@ doMessageSend: aMessageSend
 doMonadicValuable: aMonadicValuable
 	"By default, do nothing since these aren't really modules"
 ! !
+
+!KomModuleValidator methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 13:10'!
+doComancheModule: aComancheModule
+	"This method assumes that module traversal happens in depth first order"
+
+	aComancheModule validateContext: self problems! !
+
+!KomModuleValidator methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 12:50'!
+problems
+
+	^problems ifNil: [problems := OrderedCollection new]! !
 
 !KomSession methodsFor: 'accessing' stamp: 'svp 5/14/2003 00:44'!
 attributes
@@ -3384,964 +4272,6 @@ nextSessionID
 	^ (65535 atRandom hex allButFirst: 3)
 		, (LastSessionID hex allButFirst: 3)
 		, (65535 atRandom hex allButFirst: 3)! !
-
-!KomTracer methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:58'!
-logEntryFor: request response: response
-	"This is the Common Log Format (CLF) - the stream is a TranscriptStream"
-
-	| aStream |
-	aStream := self streams anyOne.
-	aStream
-		nextPutAll: '-----';
-		nextPut: Character cr.
-	request writeOn: aStream.
-	response writeHeadersOn: aStream.
-	aStream endEntry.
-! !
-
-!MIMEDocument class methodsFor: '*KomHttpServer' stamp: 'svp 12/16/1999 10:35'!
-contentTypeGif
-	^'image/gif'! !
-
-!MIMEDocument class methodsFor: '*KomHttpServer' stamp: 'gh 8/30/2002 10:21'!
-contentTypeTextCSS
-	^'text/css'! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 10:10'!
-doPostProcessingFor: request response: response
-	"The method is to provide compatibility with HttpAdaptor's post processing.
-	The receiver is expected to accept two arguments."
-
-	^self value: request value: response! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/13/2003 09:53'!
-processHttp
-	"<Boolean> The receiver should answer a boolean to indicate whether 
-	there is an HttpResponse available (accessed by HttpResponse current).
-	If the receiver takes no arguments, then assume that it answers a Boolean
-	and uses dyanmic bindings to access the current request/response, otherwise
-	pass in the current request and set the current response."
-
-	| response |
-	arguments size = 0
-		ifTrue: [^self value].
-	arguments size = 1
-		ifTrue: 
-			[response := self value: HttpRequest current.
-			response ifNotNil:
-				[HttpResponse current: response.
-				^true].
-			^false]
-
-	! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 4/17/2003 09:00'!
-processHttpRequest: request
-	"<HttpResponse> The receiver should answer an HttpResponse for sending 
-	to the client."
-
-	arguments size = 1
-		ifTrue: [^self value: HttpRequest current].
-	arguments size = 0
-		ifTrue: [^self value].
-
-	! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 12:34'!
-processVisitor: aKomModuleVisitor
-
-	^aKomModuleVisitor doMessageSend: self! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 23:44'!
-validateForStack: anArray
-	"Do nothing, provided to provide compatibility with ComancheModule"! !
-
-!MessageSend methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 13:22'!
-visitWithValuable: aMonadicValuable
-
-	aMonadicValuable value: self.
-
-! !
-
-!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 4/16/2003 21:22'!
-pathPrefix
-
-	^pathPrefix! !
-
-!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 4/16/2003 21:22'!
-pathPrefix: aString
-
-	pathPrefix := aString! !
-
-!ModAlias methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 17:05'!
-processHttp
-
-	| path |
-	path := ModCore path.
-	"check if our prefix matches"
-	((path beginsWith: pathPrefix) and: 
-	[path size = pathPrefix size or: [(path at: (pathPrefix size + 1)) = $/]])
-		ifTrue: 
-			[ModCore path: (path copyFrom: pathPrefix size + 1 to: path size).
-			self processSubModules ifTrue: 
-				[ModCore path: path.
-				^true]].
-
-	"otherwise, reset the path to it's original setting and indicate 
-	to the caller that we have no response and ."
-	ModCore path: path.
-	^false! !
-
-!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 17:37'!
-authDb
-
-	^authDb! !
-
-!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 17:39'!
-authDb: anAuthDb
-
-	authDb := anAuthDb! !
-
-!ModAuth methodsFor: 'accessing' stamp: 'svp 5/16/2003 23:08'!
-authorizationResponse
-
-	| answer |
-	answer := HttpResponse
-		status: #unauthorized
-		contents: 'Authentication Required'.
-	answer fieldAt: 'WWW-Authenticate' put: 'Basic realm="', self realm,'"'.
-	^answer! !
-
-!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:22'!
-decodeAuthorization: aString
-
-	^(Base64MimeConverter mimeDecodeToChars:
-		(ReadStream on: (aString findTokens: ' ') last))
-			contents! !
-
-!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:34'!
-extractAuthInfo: request andDo: aBlock 
-
-	| authHeader user pass |
-	(authHeader := self extractAuthorization: request) ifNil: [^self].
-	user := self extractUser: authHeader.
-	pass := self extractPassword: authHeader.
-	(user isNil or: [pass isNil]) ifTrue: [^self].
-	^aBlock value: user value: pass
-
-! !
-
-!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 10:46'!
-extractAuthorization: request
-
-	^(request headerAt: 'Authorization' ifAbsent: [request headerAt: 'authorization' ifAbsent: []])
-		ifNotNilDo: [:auth | self decodeAuthorization: auth]! !
-
-!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:29'!
-extractPassword: auth
-
-	^auth ifNotNil: [auth copyAfter: $:]! !
-
-!ModAuth methodsFor: 'processing' stamp: 'svp 4/18/2003 09:28'!
-extractUser: auth
-
-	^auth ifNotNil: [auth copyUpTo: $:]! !
-
-!ModAuth methodsFor: 'processing' stamp: 'brp 10/2/2004 15:21'!
-processHttp
-	| request |
-	request := HttpRequest current.
-	self extractAuthInfo: request
-		andDo: 
-			[:user :password | 
-			(self verifyPassword: password forUser: user) 
-				ifTrue: 
-					[self class user: user.
-					^self processSubModules]].
-	HttpResponse current: self authorizationResponse.
-	^true! !
-
-!ModAuth methodsFor: 'accessing' stamp: 'svp 5/14/2003 23:08'!
-realm
-
-	^realm ifNil: ['/']! !
-
-!ModAuth methodsFor: 'accessing' stamp: 'svp 4/18/2003 09:45'!
-realm: aString
-
-	realm := aString! !
-
-!ModAuth methodsFor: 'as yet unclassified' stamp: 'svp 5/14/2003 17:37'!
-verifyPassword: aPassword forUser: userName
-
-	^self authDb verifyPassword: aPassword forUser: userName
-! !
-
-!ModAuth class methodsFor: 'bindings' stamp: 'svp 5/15/2003 12:32'!
-user
-
-	^#'ModAuth-user' binding! !
-
-!ModAuth class methodsFor: 'bindings' stamp: 'svp 5/15/2003 12:33'!
-user: userName
-
-	^#'ModAuth-user' binding: userName! !
-
-!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 4/16/2003 08:38'!
-dirEntries: entries request: request on: strm padNamesTo: namePad padSizesTo: sizePad
-
-	request url ~= '/' ifTrue: [self parentEntry: request on: strm].
-	entries do: 
-		[ :entry |
-		self entry: entry on: strm padNamesTo: namePad padSizesTo: sizePad].! !
-
-!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 5/2/2003 23:09'!
-directoryListing: request directory: dir
-
-	| entries namePad sizePad |
-	entries := dir entries.
-	(request fields includesKey: 'S') ifTrue: 
-		[entries := entries sortBy: [ :a :b | a fileSize <= b fileSize ]].
-	(request fields includesKey: 'M') ifTrue: 
-		[entries := entries sortBy: [ :a :b | a modificationTime <= b modificationTime ]].
-	(request fields includesKey: 'N') ifTrue: 
-		[entries := entries sortBy: [ :a :b | a name <= b name ]].
-
-	namePad := (entries inject: 16 into: [ :max :ea | ea name size max: max ]) + 1.
-	sizePad := (entries inject: 4 into: [ :max :ea | ea fileSize printString size max: max ]) + 1.
-
-	^String streamContents: [ :strm |
-		strm nextPutAll: '<!!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">'.
-		strm nextPutAll: '<html><head><title>Index of '.
-		strm nextPutAll: request url.
-		strm nextPutAll: '</title></head><body><h1>Index of '.
-		strm nextPutAll: request url.
-		strm nextPutAll: '</h1><pre>      <a HREF="?N=A">Name</a>'.
-		strm nextPutAll: ((String new: (namePad - 4)) atAllPut: $ ; yourself).
-		strm nextPutAll: '<a HREF="?M=A">Last modified</a>    '.
-		strm nextPutAll: ((String new: (sizePad - 4)) atAllPut: $ ; yourself).
-		strm nextPutAll: '<a HREF="?S=A">Size</a><hr><br>'.
-		self 
-			dirEntries: entries 
-			request: request 
-			on: strm 
-			padNamesTo: namePad 
-			padSizesTo: sizePad.
-		strm nextPutAll: '</pre><hr><address>'.
-		strm nextPutAll: HttpService current serverDescription.
-		strm nextPutAll: '</address></body></html>'].! !
-
-!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 6/27/2003 16:39'!
-entry: entry on: strm padNamesTo: namePad padSizesTo: sizePad
-
-	| sizeString |
-	sizeString := entry fileSize printString.
-	entry isDirectory 
-		ifTrue: [strm nextPutAll: '[DIR]']
-		ifFalse: [strm nextPutAll: '     '].
-	strm nextPutAll: ' <a HREF="'.
-	strm nextPutAll: entry name.
-	entry isDirectory ifTrue: [strm nextPut: $/].
-	strm nextPutAll: '">'.
-	strm nextPutAll: entry name.
-	strm nextPutAll: '</a>'.
-	strm nextPutAll: ((String new: (namePad - entry name size)) atAllPut: $ ; yourself).
-	(Date fromSeconds: (entry modificationTime))
-		printOn: strm format: #(1 2 3 $- 2 1 2).
-	strm nextPut: $ .
-	(Time fromSeconds: (entry modificationTime))
-		print24: true showSeconds: false on: strm.
-	strm nextPutAll: ((String new: (sizePad - sizeString size)) atAllPut: $ ; yourself).
-	strm nextPutAll: sizeString.
-	strm nextPutAll: String crlf.
-! !
-
-!ModAutoIndex methodsFor: 'directory listing' stamp: 'svp 6/27/2003 16:48'!
-parentEntry: request on: strm
-
-	| tmp parentPath |
-	tmp := request url copyFrom: 1 to: (request url size - 1).
-	parentPath := self class splitPath: tmp to: [ :path :nm | path].
-	parentPath last = $/ ifFalse: [parentPath := parentPath, '/'].
-
-	strm nextPutAll: '[DIR] <a HREF="'.
-	strm nextPutAll: parentPath.
-	strm nextPutAll: '">Parent Directory</a>'.
-	strm nextPutAll: '<br>'.
-! !
-
-!ModAutoIndex methodsFor: 'processing' stamp: 'brp 10/2/2004 14:44'!
-processHttp
-	| dir request |
-	request := HttpRequest current.
-	(#(#GET #POST) includes: request method) ifFalse: [^false].
-	dir := ModDir serverDirectory.
-	HttpResponse current: (HttpResponse 
-				fromString: (self directoryListing: request directory: dir)).
-	^true! !
-
-!ModAutoIndex methodsFor: 'validation' stamp: 'svp 5/16/2003 13:01'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :ea | ea isDir ] 
-		ifNone: [problems add: 'AutoIndex module requires Dir module']! !
-
-!ModAutoIndex class methodsFor: 'as yet unclassified' stamp: 'svp 6/27/2003 16:43'!
-splitPath: fullName to: pathAndNameBlock
-	"Take the file name and convert it to the path name of a directory and a local file name within that directory. FileName must be of the form: <dirPath><delimiter><localName>, where <dirPath><delimiter> is optional. The <dirPath> part may contain delimiters."
-
-	| delimiter i dirName localName tmpName |
-	fullName last = $/
-		ifTrue: [tmpName := fullName copyFrom: 1 to: fullName size - 1]
-		ifFalse: [tmpName := fullName].
-	delimiter := $/.
-	(i := tmpName findLast: [:c | c = delimiter]) = 0
-		ifTrue:
-			[dirName := String new.
-			localName := tmpName]
-		ifFalse:
-			[dirName := tmpName copyFrom: 1 to: (i - 1 max: 1).
-			localName := tmpName copyFrom: i + 1 to: tmpName size].
-
-	^ pathAndNameBlock value: dirName value: localName! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/18/2003 11:58'!
-isCore
-
-	^true! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:18'!
-optionsResponse
-	| opts |
-	opts := self class options ifNil: ['GET,HEAD,POST,OPTIONS,TRACE'].
-	^(HttpResponse fromString: '')
-		fieldAt: 'Allow' put: opts;
-		yourself! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:08'!
-processHttp
-	| request method |
-	request := HttpRequest current.
-	self class
-		method: (method := request method);
-		path: request url;
-		host: request networkHost;
-		serverRoot: self serverRoot.
-	method = 'TRACE' 
-		ifTrue: 
-			[HttpResponse current: (self traceResponse: request).
-			^true].
-	self processSubModules ifTrue: [^true].
-	method = 'OPTIONS' 
-		ifTrue: 
-			[HttpResponse current: self optionsResponse.
-			^true].
-	^false! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/18/2003 11:49'!
-serverRoot
-
-	^serverRoot
-! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 14:53'!
-serverRoot: aDirOrString 
-	serverRoot := aDirOrString isString 
-		ifTrue: [FileDirectory on: aDirOrString]
-		ifFalse: [aDirOrString]! !
-
-!ModCore methodsFor: 'as yet unclassified' stamp: 'svp 4/23/2003 22:33'!
-traceResponse: request
-
-	^HttpResponse fromString:
-		(String streamContents: [ :strm | request writeOn: strm ])! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 13:28'!
-host
-
-	^#'ModCore-Host' binding! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 13:28'!
-host: aString
-
-	^#'ModCore-Host' binding: aString! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 21:39'!
-method
-
-	^#'ModCore-Method' binding! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 21:40'!
-method: methodString
-
-	#'ModCore-Method' binding: methodString! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 22:22'!
-options
-
-	^#'ModCore-Options' binding! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/23/2003 22:22'!
-options: methodsString
-
-	^#'ModCore-Options' binding: methodsString! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:28'!
-path
-
-	^#'ModCore-Path' binding! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:28'!
-path: aString
-
-	^#'ModCore-Path' binding: aString! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/18/2003 11:51'!
-serverRoot
-
-	^#'ModCore-ServerRoot' binding! !
-
-!ModCore class methodsFor: 'bindings' stamp: 'svp 4/18/2003 11:51'!
-serverRoot: aFileDirectory
-
-	^#'ModCore-ServerRoot' binding: aFileDirectory! !
-
-!ModDir methodsFor: 'as yet unclassified' stamp: 'svp 4/15/2003 17:06'!
-directoryIndex
-
-	^directoryIndex ifNil: [directoryIndex := OrderedCollection new]! !
-
-!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 14:52'!
-directoryIndex: aCollectionOrString 
-	directoryIndex := aCollectionOrString isString 
-		ifTrue: [aCollectionOrString findTokens: ' ']
-		ifFalse: [aCollectionOrString]! !
-
-!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:45'!
-directoryIndexExists: dir 
-	| fname |
-	
-	fname := self directoryIndex detect: [:ea | dir fileExists: ea]
-				ifNone: [^false].
-
-	"Our directory exists, set the full file name so that
-	ModFile will detect and serve the index file (note, if no ModFile
-	gets processed after this module, then a doc not found will be returned)"
-	
-	ModDoc relativeFilePath: ModDoc relativeFilePath , fname.
-	^true! !
-
-!ModDir methodsFor: 'testing' stamp: 'svp 5/15/2003 17:27'!
-isDir
-
-	^true! !
-
-!ModDir methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:30'!
-processHttp
-	| filePath dir request |
-	request := HttpRequest current.
-	filePath := self class fullFilePath.
-	(self class directoryExists: (dir := FileDirectory on: filePath)) 
-		ifFalse: [^false].
-
-	"If the url does not end in a slash, then redirect to add the slash"
-	request url last ~= $/ 
-		ifTrue: 
-			[self redirectWithTrailingSlash: request.
-			^true].
-	(self directoryIndexExists: dir) ifTrue: [^false].
-	self class serverDirectory: dir.
-	^ self processSubModules ! !
-
-!ModDir methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 23:09'!
-redirectWithTrailingSlash: request
-
-	| location |
-	location := request url, '/'.
-	HttpResponse current: 
-		((HttpResponse
-			status: #tempMoved
-			contents: 'Temporarily moved to: <A HREF="', location, '">', location, '</A>')
-		fieldAt: 'Location' put: location;
-		fieldAt: 'URI' put: location;
-		yourself)! !
-
-!ModDir methodsFor: 'validation' stamp: 'svp 5/16/2003 13:02'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :ea | ea isDoc ] 
-		ifNone: [problems add: 'Dir module requires a Doc module']! !
-
-!ModDir class methodsFor: 'tests' stamp: 'GuillermoPolito 10/6/2010 18:10'!
-directoryExists: aFileDirectory
-	"The Mac implementation of FileDirectory>>exists answers true,
-	even when the path specified is a file (not a directory) (as of
-	22 May 2003)...this differs from the Unix and Windows VMs...so 
-	this is a little hack that should work on all platforms...when the
-	Mac VM is correct, we should change this code to simply use
-	FileDirectory>>exists"
-
-	"Ordinarily, just do:"
-	Smalltalk os platformName ~= 'Mac OS' ifTrue: [^aFileDirectory exists].
-
-	"But!! Because of Mac idiosyncracies, do:"
-	^aFileDirectory exists and: 
-		[aFileDirectory containingDirectory directoryNames 
-			includes: aFileDirectory localName].
-
-	! !
-
-!ModDir class methodsFor: 'accessing' stamp: 'tbn 11/10/2004 11:38'!
-fullFilePath
-	^ModDoc fullFilePath! !
-
-!ModDir class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:42'!
-serverDirectory
-
-	^#'ModDir-ServerDirectory' binding! !
-
-!ModDir class methodsFor: 'bindings' stamp: 'svp 4/15/2003 15:42'!
-serverDirectory: aFileDirectory
-
-	#'ModDir-ServerDirectory' binding: aFileDirectory! !
-
-!ModDoc methodsFor: 'accessing' stamp: 'svp 4/15/2003 16:00'!
-documentRoot
-
-	^documentRoot! !
-
-!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 14:52'!
-documentRoot: aDirectoryOrString 
-	documentRoot := aDirectoryOrString isString 
-		ifTrue: [FileDirectory on: aDirectoryOrString]
-		ifFalse: [aDirectoryOrString]! !
-
-!ModDoc methodsFor: 'testing' stamp: 'svp 5/15/2003 15:54'!
-isDoc
-
-	^true! !
-
-!ModDoc methodsFor: 'error handling' stamp: 'svp 4/15/2003 16:32'!
-notFoundResponseFor: request
-
-	^self
-		errorResponseStatus: #notFound
-		description: ('The requested URL ', request url, ' was not found on this server').
-! !
-
-!ModDoc methodsFor: 'printing' stamp: 'svp 4/15/2003 16:27'!
-printOn: strm
-
-	super printOn: strm.
-	strm nextPut: $(.
-	self documentRoot pathName printOn: strm.
-	strm nextPut: $).! !
-
-!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 15:21'!
-processHttp
-	"Examine the path from ModCore and set the bindings for
-	document root and relative file path"
-
-	| relativeFilePath path |
-	path := ModCore path.
-	relativeFilePath := self relativeFilePathFrom: path.
-	self class
-		documentRoot: self documentRoot;
-		relativeFilePath: relativeFilePath.
-	^ self processSubModules.! !
-
-!ModDoc methodsFor: 'accessing' stamp: 'brp 10/2/2004 15:40'!
-relativeFilePathFrom: path 
-	^((path notEmpty and: [path first = $/]) 
-		ifTrue: [path copyFrom: 2 to: path size]
-		ifFalse: ['']) translateWith: DelimiterTranslation! !
-
-!ModDoc methodsFor: 'validation' stamp: 'svp 5/16/2003 13:02'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :module | module isCore ]
-		ifNone: [problems add: 'Doc module requires a Core module']! !
-
-!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/15/2003 18:02'!
-documentRoot
-	"<FileDirectory> The root of the document tree for the current request"
-
-	^#'ModCore-DocumentRoot' binding! !
-
-!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/15/2003 16:02'!
-documentRoot: aFileDirectory
-
-	#'ModCore-DocumentRoot' binding: aFileDirectory! !
-
-!ModDoc class methodsFor: 'bindings' stamp: 'GuillermoPolito 10/6/2010 18:10'!
-fullFilePath
-	"<String> The full path name to the file or directory on the server
-	indicated by the current HttpRequest."
-
-	"Ordinarily, just use the following:"
-	(Smalltalk os platformName ~= 'Mac OS')
-		ifTrue: [^self documentRoot fullNameFor: self relativeFilePath].
-
-	"But!! Because of Mac idiosyncracies, we must do:"
-	^((self relativeFilePath findTokens: FileDirectory pathNameDelimiter asString)
-		inject: self documentRoot into: 
-			[ :dir :pathPart |
-			FileDirectory on: (dir fullNameFor: pathPart)]) fullName
-			! !
-
-!ModDoc class methodsFor: 'initialization' stamp: 'svp 4/15/2003 16:19'!
-initialize
-	"self initialize"
-
-	DelimiterTranslation := (0 to: 255) as: ByteArray.
-	DelimiterTranslation 
-		at: ($/ asciiValue + 1) 
-		put: FileDirectory pathNameDelimiter asciiValue.
-
-	"Register this class for startUp notification (in case we are started on a
-	platform with a differen path name delimiter"
-	Smalltalk addToStartUpList: self.
-! !
-
-!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:12'!
-relativeFilePath
-	"<String> The relative path name to the file or directory on the server
-	indicated by the current HttpRequest"
-
-	^#'ModCore-RelativeFilePath' binding ! !
-
-!ModDoc class methodsFor: 'bindings' stamp: 'svp 4/16/2003 11:13'!
-relativeFilePath: aPathName
-
-	^#'ModCore-RelativeFilePath' binding: aPathName! !
-
-!ModDoc class methodsFor: 'initialization' stamp: 'svp 4/15/2003 16:19'!
-startUp
-	"When we start up, force the rebuilding of the DelimiterTranslation
-	array (in case we are started on a platform with a different delimiter)."
-
-	self initialize! !
-
-!ModFile methodsFor: 'processing' stamp: 'gk 8/17/2005 23:52'!
-processHttp
-	"This method uses StandardFileStream explicitly instead
-	of relying on FileStream class>>concreteStream, since in this
-	case we just need to return the file 'as is' binary."
-
-	| fullFilePath method |
-	method := ModCore method.
-	(#(#GET #POST) includes: method) ifFalse: [^false].
-	fullFilePath := ModDoc fullFilePath.
-	(FileStream isAFileNamed: fullFilePath) ifFalse: [^false].
-	self processSubModules ifTrue: [^true].
-	HttpResponse current: (HttpResponse 
-				fromStream: (StandardFileStream readOnlyFileNamed: fullFilePath)).
-	^true! !
-
-!ModFile methodsFor: 'validation' stamp: 'svp 5/16/2003 13:03'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :ea | ea isDoc ] 
-		ifNone: [problems add: 'File module requires a Doc module']! !
-
-!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
-doPostProcessingFor: request response: response
-	"This method is called after the response has been written, we need 
-	to log the request/response pair"
-
-	self logger nextPut: (Array with: request with: response)! !
-
-!ModLog methodsFor: 'testing' stamp: 'svp 5/16/2003 12:10'!
-isLog
-
-	^true! !
-
-!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
-logger
-
-	^logger! !
-
-!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:30'!
-logger: aStream
-
-	logger := aStream! !
-
-!ModLog methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 10:15'!
-processHttp
-
-	HttpAdaptor current addPostProcessor: self.
-	^self processSubModules! !
-
-!ModMulti methodsFor: 'processing' stamp: 'svp 4/16/2003 21:10'!
-processHttp
-
-	^self processSubModules! !
-
-!ModNotFound methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 17:08'!
-processHttp
-
-	HttpResponse current: 
-		(HttpAdaptor current notFoundResponseFor: HttpRequest current).
-	^true! !
-
-!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:11'!
-basicExtractSession: aRequest ifAbsent: absentBlock
-	"PRIVATE: answer the current session based on the 'SessionID' cookie"
-
-	aRequest cookies
-		at: #SessionID
-		ifPresent: [ :sid | ^sessions at: sid ifAbsent: absentBlock].
-	^absentBlock value
-! !
-
-!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:18'!
-checkForCleanup
-	"PRIVATE: run the cleanup if the last cleanup was more than
-	1 minute ago"
-
-	lastCleanup + 60 < Time totalSeconds
-		ifTrue: [self cleanup]! !
-
-!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:05'!
-cleanup
-	"PRIVATE: iterate over all sessions and remove stale ones"
-
-	| session cutoff |
-	lastCleanup := Time totalSeconds.
-	cutoff := lastCleanup - secondsToLive.
-	sessions keys do: 
-		[:key | 
-		session := sessions at: key.
-		(session lastAccess < cutoff) ifTrue: 
-			[sessions removeKey: key]]! !
-
-!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:10'!
-extractSession: aRequest 
-	"<KomSession> extract or create a session for aRequest"
-	| session |
-	mutex critical: 
-		[self checkForCleanup.
-		session := self 
-					basicExtractSession: aRequest 
-					ifAbsent: [self newSession].
-		session touch].
-	^ session! !
-
-!ModSession methodsFor: 'initialization' stamp: 'brp 10/2/2004 14:34'!
-initialize
-	super initialize.
-	
-	sessions := Dictionary new.
-	mutex := Semaphore forMutualExclusion.
-	lastCleanup := Time totalSeconds.
-	"30 minutes"
-	secondsToLive := 30 * 60! !
-
-!ModSession methodsFor: 'testing' stamp: 'svp 5/15/2003 16:05'!
-isSession
-
-	^true! !
-
-!ModSession methodsFor: 'private' stamp: 'svp 5/14/2003 01:11'!
-newSession
-	"PRIVATE: creates a new Session and stores it"
-	| session |
-	session := KomSession new.
-	sessions at: session id put: session.
-	^ session! !
-
-!ModSession methodsFor: 'processing' stamp: 'svp 5/14/2003 01:14'!
-processHttp
-
-	| session |
-	session := self extractSession: HttpRequest current.
-	KomSession current: session.
-	self processSubModules ifFalse: [^false].
-	HttpResponse current
-		setCookieName: #SessionID
-		value: session id
-		path: '/'.
-	^ true! !
-
-!ModSession methodsFor: 'accessing' stamp: 'svp 5/14/2003 01:12'!
-secondsToLive: anInteger
-
-	secondsToLive := anInteger! !
-
-!ModSession methodsFor: 'enumeration' stamp: 'gk 11/6/2003 17:12'!
-sessionsDo: aBlock
-	"Iterate over sessions."
-
-	^ sessions valuesDo: aBlock! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'lr 4/15/2010 08:52'!
-getOffsetAt: pos
-
-	| temp end val |
-	temp := self template.
-	end := pos.
-	(temp at: end) == $- ifTrue: [end := end + 1].
-	[val := temp at: end.
-	((val >= $0) and: [val <= $9 and: [temp size > end]])] whileTrue: [end := end + 1].
-	((val >= $0) and: [val <= $9]) ifTrue: [end := end + 1].
-	((end <= temp size) and: [(temp at: end) = $+])
-		ifTrue: [^temp copyFrom: pos to: end]
-		ifFalse: [^temp copyFrom: pos to: (end - 1)]
-! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:50'!
-getSubstituteAt: percentPosition host: aHost andDo: aBlock
-
-	| temp nameIndex nextPos letterIndex sub |
-	temp := self template.
-
-	temp size <= percentPosition ifTrue: 
-		[aBlock value: '%'. 
-		^percentPosition + 1].
-
-	(temp at: (percentPosition + 1)) = $% ifTrue: 
-		[aBlock value: '%'. 
-		^percentPosition + 2].
-
-	(temp at: (percentPosition + 1)) = $p ifTrue: 
-		[aBlock value: aHost port asString. 
-		^percentPosition + 2].
-
-	nameIndex := self getOffsetAt: (percentPosition + 1).
-	nextPos := percentPosition + 1 + nameIndex size.
-
-	((temp size >= nextPos) and: [(temp at: nextPos) = $.])
-		ifTrue: 
-			[letterIndex := self getOffsetAt: (nextPos + 1).
-			nextPos := nextPos + letterIndex size + 1]
-		ifFalse: 
-			[letterIndex := '0'].
-
-	[sub := aHost vhostName: nameIndex letter: letterIndex]
-		on: Error do: [ :ex | aBlock value: '%'. ^percentPosition + 1].
-
-	aBlock value: sub.
-	^nextPos
-! !
-
-!ModVhost methodsFor: 'testing' stamp: 'svp 5/15/2003 17:24'!
-isVhost
-
-	^true! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 15:17'!
-processHttp
-	self class string: (self stringFromHost: ModCore host).
-	^self processSubModules! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:50'!
-stringFromHost: aHost
-
-	| pos temp done nextPercent |
-	pos := 1.
-	temp := self template.
-	done := false.
-
-	^String streamContents: [ :strm |
-		[done] whileFalse: 
-			[nextPercent := temp indexOf: $% startingAt: pos.
-			nextPercent = 0 
-				ifTrue:
-					[strm nextPutAll: (temp copyFrom: pos to: temp size).
-					done := true.]
-				ifFalse: 
-					[strm nextPutAll: (temp copyFrom: pos to: (nextPercent - 1)).
-					pos := self 
-						getSubstituteAt: nextPercent 
-						host: aHost
-						andDo: [ :sub | strm nextPutAll: sub ].
-					pos > temp size ifTrue: [done := true]]]].! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:48'!
-template
-
-	^template ifNil: [template := '%0']! !
-
-!ModVhost methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:49'!
-template: aString
-
-	template := aString! !
-
-!ModVhost methodsFor: 'validation' stamp: 'svp 5/16/2003 13:03'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :module | module isCore ]
-		ifNone: [problems add: 'Vhost module requires a Core module']! !
-
-!ModVhost class methodsFor: 'instance creation' stamp: 'svp 4/16/2003 21:06'!
-pathTemplate: aString
-
-	^self new 
-		pathTemplate: aString; 
-		yourself! !
-
-!ModVhost class methodsFor: 'bindings' stamp: 'svp 4/17/2003 16:51'!
-string
-
-	^#'ModVhost-String' binding! !
-
-!ModVhost class methodsFor: 'bindings' stamp: 'svp 4/17/2003 16:51'!
-string: aString
-
-	#'ModVhost-String' binding: aString! !
-
-!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:44'!
-host
-
-	^host! !
-
-!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:44'!
-host: aString
-
-	host := aString! !
-
-!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/15/2003 00:47'!
-processHttp
-	"Get the host string and if we match, then process
-	our subModules."
-
-	| hostString |
-	hostString := ModVhost string.
-	host = hostString ifTrue:
-		[self processSubModules ifTrue: [^true]].
-	^false
-! !
-
-!ModVhostAlias methodsFor: 'accessing' stamp: 'svp 5/16/2003 13:04'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :module | module isVhost ]
-		ifNone: [self error: 'VhostAlias module requires a Vhost module']! !
-
-!ModVhostDoc methodsFor: 'as yet unclassified' stamp: 'svp 4/17/2003 16:53'!
-documentRoot
-
-	^super documentRoot directoryNamed: ModVhost string! !
-
-!ModVhostDoc methodsFor: 'validation' stamp: 'svp 5/16/2003 13:04'!
-validateForStack: anArray problems: problems
-
-	super validateForStack: anArray problems: problems.
-	anArray 
-		detect: [ :module | module isVhost ]
-		ifNone: [self error: 'VhostDoc module requires a Vhost module']! !
 
 !ModuleAssembly methodsFor: 'construction' stamp: 'svp 4/18/2003 10:03'!
 addAssembly: aModuleAssembly
@@ -4545,10 +4475,6 @@ new
 		initialize;
 		basicPushModule: ModMulti new;
 		yourself! !
-
-!Morph methodsFor: '*KomHttpServer' stamp: 'bolot 10/16/2001 21:33'!
-asHttpResponseTo: request
-	^self imageForm asHttpResponseTo: request! !
 
 !MultipartChunk methodsFor: 'accessing' stamp: 'bolot 12/16/2000 02:36'!
 contentType
@@ -4851,251 +4777,117 @@ fromString: aString
 		initializeFromString: aString;
 		yourself! !
 
-!Object methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:17'!
-asHtmlDocumentForRequest: aNetworkRequest
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:47'!
+addStream: aStream
+	"Add a new output stream to the logger"
 
-	self error: 
-		('The requested object (', 
-		self asString, 
-		'), could not be converted into HTML for your browser.')! !
+	self streams add: aStream.
+	^aStream! !
 
-!Object methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:23'!
-asHttpResponseTo: anHttpRequest
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:47'!
+attachTheTranscript
 
-	^(self asHtmlDocumentForRequest: anHttpRequest) 
-		asHttpResponseTo: anHttpRequest
+	^self addStream: Transcript.
 ! !
 
-!Object methodsFor: '*KomHttpServer' stamp: 'gc 3/4/2009 00:34'!
-contentType
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'gsa 2/12/2013 16:11'!
+attachTranscript
+	self detachTheTranscript.
+	^(self streams detect: [:ea | ea isTranscriptStream] ifNone: [nil]) 
+		"ifNil: [self addStream: TranscriptStream new]"
+		"Cuis Specific code"
+			ifNil: [self addStream: Transcript new]! !
 
-	^MIMEDocument defaultContentType! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:49'!
+detachTheTranscript
 
-!Object methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 12:47'!
-isComancheModule
+	self removeStream: Transcript.
+	^Transcript! !
 
-	^false! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:23'!
+detachTranscripts
+	(self streams select: [:ea | ea isTranscriptStream]) 
+		do: [:ea | self removeStream: ea]! !
 
-!ReadWriteStream methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:07'!
-asHttpResponseTo: request
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:36'!
+logEntryFor: request response: response
+	"This is the Common Log Format (CLF)"
 
-	^HttpResponse fromStream: self! !
+	^String streamContents: 
+		[ :strm |
+		strm
+			nextPutAll: request remoteAddress asIpString;
+			nextPutAll: ' - ';  "We don't bother with the ident string"
+			nextPutAll: (ModAuth user ifNil: ['-']);
+			nextPut: $ .
+		(TimeStamp fromSeconds: request timestamp)
+			printCLFFormatOn: strm.
+		strm nextPutAll: ' "'.
+		request firstLineOn: strm.
+		strm nextPutAll: '" '.
+		strm nextPutAll: response statusCode.
+		strm nextPut: $ .
+		strm nextPutAll: (response contentLength ifNil: ['-']) asString.
+		strm nextPut: Character cr].
 
-!SocketStream methodsFor: '*KomHttpServer' stamp: 'pmm 12/10/2010 07:18'!
-upToAll: aStringOrByteArray bufferSize: maxSize do: aBlock
-	"A variant of #upToAll: that executes a block chunk wise for the result instead of
-	returning the result as a collection. See #upToAll: for details."
 
-	| index sz result lastRecentlyRead searchedSoFar insz |
-	sz := aStringOrByteArray size.
-	searchedSoFar := 0.
-	lastRecentlyRead := 0.
-	index := 0.
-	[self atEnd not and: [
-		insz := self inBufferSize.
-		((lastRecentlyRead = 0 and: [self isInBufferEmpty not]) or: [insz > maxSize]) ifTrue: [
-			"Data begins at lastRead + 1."
-			index := inBuffer indexOfSubCollection: aStringOrByteArray startingAt: lastRead + 1.
-			searchedSoFar := insz.
-			(index > 0 and: [(index + sz) > inNextToWrite]) ifTrue: [
-				"Oops, hit partially or completely in dead buffer area.
-				This is probably due to old data, so we ignore it.
-				No point in cleaning the dead area to avoid hits - it will still search it."
-				index := 0].
-			(index = 0 and: [searchedSoFar > sz]) ifTrue: [
-				"Just searched and did not find it, we only consume most of inBuffer to create overlap"
-				aBlock value: (self nextInBuffer: (searchedSoFar - sz)) ].
-			].
-		index = 0]]
-				whileTrue: [
-					recentlyRead = 0
-						ifTrue: ["blocking call for now, we don't want to poll"
-							self receiveData]
-						ifFalse: [
-							self receiveAvailableData].
-					lastRecentlyRead := recentlyRead].
-	index > 0
-		ifTrue: ["found it"
-			result := self nextInBuffer: index - lastRead - 1.
-			self skip: sz.
-			^aBlock value: result]
-		ifFalse: ["atEnd"
-			^aBlock value: self nextAllInBuffer]! !
-
-!StandardFileStream methodsFor: '*KomHttpServer' stamp: 'francoisstephany 7/21/2009 23:21'!
-contentType
-	^self mimeType! !
-
-!StandardFileStream methodsFor: '*KomHttpServer' stamp: 'SVP 8/24/1999 15:47'!
-mimeType
-
-	^MIMEDocument guessTypeFromName: self name.
 ! !
 
-!Stream methodsFor: '*KomHttpServer' stamp: 'SVP 8/23/1999 19:07'!
-asHttpResponseTo: request
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/15/2003 11:57'!
+next
 
-	^HttpResponse fromStream: self! !
+	self shouldNotImplement! !
 
-!Stream methodsFor: '*KomHttpServer' stamp: 'brp 10/2/2004 16:21'!
-isTranscriptStream
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:50'!
+nextPut: anArray 
+	| logEntry |
+	logEntry := self logEntryFor: anArray first response: anArray second.
+	self streams do: 	[:strm | strm nextPutAll: logEntry; endEntry]! !
 
-	^ false! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:50'!
+openTranscript
 
-!String methodsFor: '*KomHttpServer' stamp: 'bolot 2/5/2001 20:01'!
-asHttpResponseTo: request
+	self attachTranscript openLabel: 'Comanche Logger'! !
 
-	^HttpResponse fromString: self! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:49'!
+removeStream: aStream
+	"Remove an output stream to the logger"
 
-!TextAnchor methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:45'!
-printHtmlOpenTagOn: strm
-	"do nothing for now"
-	"save the embedded image in a file to be served by Comanche"! !
+	self streams remove: aStream ifAbsent: [].
+	^aStream! !
 
-!TextColor methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:40'!
-printHtmlCloseTagOn: strm
-	strm
-		nextPutAll: '</FONT>'! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
+streams
 
-!TextColor methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:53'!
-printHtmlOpenTagOn: strm
-	strm
-		nextPutAll: '<FONT COLOR="#';
-		nextPutAll: self color hex;
-		nextPutAll: '">'! !
+	^streams! !
 
-!TextEmphasis methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:39'!
-printHtmlCloseTagOn: strm
-	emphasisCode = 1 ifTrue: [strm nextPutAll: '</B>'].
-	emphasisCode = 2 ifTrue: [strm nextPutAll: '</I>'].
-	emphasisCode = 4 ifTrue: [strm nextPutAll: '</U>'].
-	emphasisCode = 16 ifTrue: [strm nextPutAll: '</S>']! !
+!KomLogger methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
+streams: aStream
 
-!TextEmphasis methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:39'!
-printHtmlOpenTagOn: strm
-	emphasisCode = 1 ifTrue: [strm nextPutAll: '<B>'].
-	emphasisCode = 2 ifTrue: [strm nextPutAll: '<I>'].
-	emphasisCode = 4 ifTrue: [strm nextPutAll: '<U>'].
-	emphasisCode = 16 ifTrue: [strm nextPutAll: '<S>']! !
+	streams := aStream! !
 
-!TextURL methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:40'!
-printHtmlCloseTagOn: strm
-	strm
-		nextPutAll: '</A>'! !
+!KomLogger class methodsFor: 'as yet unclassified' stamp: 'svp 5/16/2003 11:35'!
+on: aStream
 
-!TextURL methodsFor: '*KomHttpServer' stamp: 'bolot 3/17/2001 22:40'!
-printHtmlOpenTagOn: strm
-	strm
-		nextPutAll: '<A HREF="';
-		nextPutAll: self info;
-		nextPutAll: '">'! !
+	^self basicNew
+		streams: (Set new add: aStream; yourself);
+		yourself! !
 
-!Time class methodsFor: '*KomHttpServer' stamp: 'svp 4/25/2003 17:35'!
-deadlineSecs: secs
-	"Return a deadline time the given number of seconds from now."
-	"SVP: copied here from Socket because I think it's more appropriate here"
+!KomTracer methodsFor: 'as yet unclassified' stamp: 'brp 10/2/2004 16:58'!
+logEntryFor: request response: response
+	"This is the Common Log Format (CLF) - the stream is a TranscriptStream"
 
-	^ self millisecondClockValue + (secs * 1000)
+	| aStream |
+	aStream := self streams anyOne.
+	aStream
+		nextPutAll: '-----';
+		nextPut: Character cr.
+	request writeOn: aStream.
+	response writeHeadersOn: aStream.
+	aStream endEntry.
 ! !
-
-!TimeStamp methodsFor: '*KomHttpServer' stamp: 'svp 5/15/2003 12:40'!
-printCLFFormatOn: aStream
-
-	| d t |
-	d := self date.
-	t := self time.
-	aStream nextPut: $[.
-	d printOn: aStream format: #(1 2 3 $/ 2 1 2).
-	aStream nextPut: $:.
-	t print24: true on: aStream.
-	aStream nextPut: $].
-! !
-
-!TimeStamp methodsFor: '*KomHttpServer' stamp: 'brp 10/2/2004 17:07'!
-printCLFFormatOn: aStream timezoneOffset: zoneOffset 
-
-	| d t |
-	d := self date.
-	t := self time.
-	aStream nextPut: $[.
-	d printOn: aStream format: #(1 2 3 $/ 2 1 2).
-	aStream nextPut: $:.
-	t print24: true on: aStream.
-	aStream nextPut: $ .
-	zoneOffset  < 0 
-		ifTrue: [aStream nextPut: $-]
-		ifFalse: [aStream nextPut: $+].
-	zoneOffset abs < 10 ifTrue: [aStream nextPut: $0].
-	zoneOffset abs printOn: aStream.
-	aStream nextPutAll: '00'.
-	aStream nextPut: $].
-! !
-
-!TimeStamp methodsFor: '*KomHttpServer' stamp: 'svp 4/22/2003 00:41'!
-printHttpFormat
-
-	^String streamContents: [ :strm | self printHttpFormatOn: strm]! !
-
-!TimeStamp methodsFor: '*KomHttpServer' stamp: 'gk 11/4/2004 13:18'!
-printHttpFormatOn: aStream
-	"Print receiver's date and time on aStream in HTTP format;
-	'<day>, DD <mth> YYYY HH:MM:SS GMT' ->	'Thu, 01 Dec 1994 16:00:00 GMT'
-	"
-	
-	| d t |
-	d := self date.
-	t := self time.
-	aStream nextPutAll: (d weekday copyFrom: 1 to: 3).
-	aStream nextPutAll: ', '.
-	d printOn: aStream format: #(1 2 3 $  2 1 2).
-	aStream nextPut: $ .
-	t print24: true on: aStream.
-	aStream nextPutAll: ' GMT'.! !
-
-!Transcript methodsFor: '*KomHttpServer' stamp: 'gsa 2/12/2013 16:46'!
-isTranscriptStream
-	"Cuis specific because here we not have the TranscriptStream class"
-	^ true! !
-
-!Transcripter methodsFor: '*KomHttpServer' stamp: 'brp 10/2/2004 16:22'!
-isTranscriptStream
-
-	^ true! !
-
-!UndefinedObject methodsFor: '*KomHttpServer' stamp: 'svp 5/16/2003 23:09'!
-asHttpResponseTo: request
-
-	^HttpResponse 
-		status: #notFound 
-		contents: 'The object you requested was not found on this server.'! !
-
-!UndefinedObject methodsFor: '*KomHttpServer' stamp: 'svp 12/16/1999 10:35'!
-contentTypeGif
-	^'image/gif'! !
-
-!UndefinedObject methodsFor: '*KomHttpServer' stamp: 'gh 8/30/2002 10:21'!
-contentTypeTextCSS
-	^'text/css'! !
-
-!WriteStream methodsFor: '*KomHttpServer' stamp: 'gc 3/4/2009 00:36'!
-asHttpResponseTo: request
-
-	^HttpResponse fromMIMEDocument: 
-		(MIMEDocument contentType: self contentType content: self contents)! !
-
-!WriteStream methodsFor: '*KomHttpServer' stamp: 'gc 3/4/2009 00:35'!
-contentType
-
-	self flag: #svp.
-	"SVP: We should not be assuming that all write streams contain html content.  This needs to be fixed."
-
-	^'text/html' asMIMEType! !
-
-!WriteStream methodsFor: '*KomHttpServer' stamp: 'cmm 11/10/2002 20:35'!
-endEntry
-	"No-op for compatibility with TranscriptStream."! !
+HttpService initialize!
+ModDoc initialize!
 HttpRequest initialize!
 HttpResponse initialize!
-HttpService initialize!
 KomSession initialize!
-ModDoc initialize!

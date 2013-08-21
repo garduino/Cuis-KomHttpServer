@@ -1,5 +1,6 @@
-'From Cuis 4.1 of 12 December 2012 [latest update: #1590] on 12 February 2013 at 3:11:08 pm'!
+'From Cuis 4.2 of 25 July 2013 [latest update: #1803] on 21 August 2013 at 10:43:08.91571 am'!
 'Description Please enter a description for this package '!
+!provides: 'DynamicBindings' 1 0!
 !classDefinition: #BindingsAccessor category: #DynamicBindings!
 Object subclass: #BindingsAccessor
 	instanceVariableNames: ''
@@ -8,6 +9,16 @@ Object subclass: #BindingsAccessor
 	category: 'DynamicBindings'!
 !classDefinition: 'BindingsAccessor class' category: #DynamicBindings!
 BindingsAccessor class
+	instanceVariableNames: ''!
+
+!classDefinition: #DynamicBindings category: #DynamicBindings!
+IdentityDictionary subclass: #DynamicBindings
+	instanceVariableNames: 'parent'
+	classVariableNames: 'Root'
+	poolDictionaries: ''
+	category: 'DynamicBindings'!
+!classDefinition: 'DynamicBindings class' category: #DynamicBindings!
+DynamicBindings class
 	instanceVariableNames: ''!
 
 !classDefinition: #BindingsLocator category: #DynamicBindings!
@@ -30,16 +41,6 @@ TestCase subclass: #DynamicBindingTests
 DynamicBindingTests class
 	instanceVariableNames: ''!
 
-!classDefinition: #DynamicBindings category: #DynamicBindings!
-IdentityDictionary subclass: #DynamicBindings
-	instanceVariableNames: 'parent'
-	classVariableNames: 'Root'
-	poolDictionaries: ''
-	category: 'DynamicBindings'!
-!classDefinition: 'DynamicBindings class' category: #DynamicBindings!
-DynamicBindings class
-	instanceVariableNames: ''!
-
 
 !BindingsAccessor commentStamp: 'svp 3/5/2003 10:55' prior: 0!
 I enable access to the current dynamic bindings.  My class initialization adds my default instance to the system dictionary as #Bindings.  This enables access to the active runtime environment using syntax like the following:
@@ -53,12 +54,6 @@ I also allow for the creation of new DynamicBindings as follows:
    Bindings clamp: [].  "Creates new bindings that inherit from the current bindings"
 
 !
-
-!BindingsLocator commentStamp: 'svp 3/5/2003 10:58' prior: 0!
-I am used to find the runtime environment of a given ContextPart.  If no suitable handler is found, then I will install dummy contexts at the top of the stack that include a handler that returns the default bindings for the system (ie. "DynamicBindings root").!
-
-!DynamicBindingTests commentStamp: 'svp 3/5/2003 10:58' prior: 0!
-I test the DynamicBindings subsystem.!
 
 !DynamicBindings commentStamp: 'svp 5/7/2003 10:36' prior: 0!
 DynamicBindings for Squeak
@@ -119,6 +114,261 @@ Unlike other implementations, DynamicBindings do not use the activation stack to
 
 If you need to isolate the bindings of a given context stack such that future changes in the bindings are not visible to users of the current set of dynamic bindings (ie. if you use continuations), you can send the message #isolate to the BindingsAccessor (ie. use "Bindings isolate").
 !
+
+!BindingsLocator commentStamp: 'svp 3/5/2003 10:58' prior: 0!
+I am used to find the runtime environment of a given ContextPart.  If no suitable handler is found, then I will install dummy contexts at the top of the stack that include a handler that returns the default bindings for the system (ie. "DynamicBindings root").!
+
+!DynamicBindingTests commentStamp: 'svp 3/5/2003 10:58' prior: 0!
+I test the DynamicBindings subsystem.!
+
+!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:08'!
+binding
+	"Answer the DynamicBinding for the receiver (if any)"
+
+	^Bindings bindingFor: self ifNotBound: [nil]! !
+
+!Object methodsFor: '*DynamicBindings' stamp: 'svp 4/29/2003 00:35'!
+binding: anObject
+	"Set the dynamic binding for the receiver, if anObject is nil, then 
+	remove the receiver's dynamic binding (if any)"
+
+	^anObject 
+		ifNil: [self removeBinding]
+		ifNotNil: [Bindings bind: self to: anObject]! !
+
+!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:09'!
+hasBinding
+	"Answer whether or not the receiver has a dynamic binding"
+
+	^Bindings includesKey: self! !
+
+!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:09'!
+removeBinding
+	"Remove the dynamic binding associated with the receiver"
+
+	^Bindings removeKey: self ifAbsent: []! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:49'!
+bindings
+	"Answers the Dynamic Bindings that are currently visible in the receiver's context.  This is kind of a hack...we could do a better job of this if we used the exception handling primitives directly, however, this implementation has the benefit of being slightly more portable."
+	
+	| oldSender answer |
+	oldSender := thisContext swapSender: self.
+	answer := BindingsLocator signal.
+	thisContext swapSender: oldSender.
+	^answer 
+
+	! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithBindings
+	"Create and schedule a new process that has the same 
+	dynamic bindings as the active process"
+
+	^self newProcessWithBindings resume
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithBindings: dynamicBindings
+	"Create and schedule a new process with the given dynamic bindings"
+
+	^(self newProcessWithBindings: dynamicBindings) resume! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithClampedBindings
+
+	^self newProcessWithClampedBindings resume
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithClampedBindings: dynamicBindings
+
+	^(self newProcessWithClampedBindings: dynamicBindings) resume
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithIsolatedBindings
+
+	^self newProcessWithIsolatedBindings resume
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+forkWithIsolatedBindings: dynamicBindings
+
+	^(self newProcessWithIsolatedBindings: dynamicBindings) resume
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+newProcessWithBindings
+	"Create a new process that has the same dynamic bindings
+	as the active process"
+
+	^self newProcessWithBindings: Bindings get! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
+newProcessWithBindings: dynamicBindings
+	"Create a new process with the given dynamic bindings"
+
+	^[self valueWithBindings: dynamicBindings] newProcess! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+newProcessWithClampedBindings
+	"Create a new process with a nested set of the dynamicBindings of 
+	the active process"
+
+	^self newProcessWithClampedBindings: Bindings get
+
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+newProcessWithClampedBindings: dynamicBindings
+	"Create a new process with a nested set of the given dynamicBindings"
+
+	^[Bindings clamp: self] newProcessWithBindings: dynamicBindings
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+newProcessWithIsolatedBindings
+	"Create a new process with a copy of the dynamicBindings of the 
+	acitve process"
+
+	^self newProcessWithIsolatedBindings: Bindings get
+
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+newProcessWithIsolatedBindings: dynamicBindings
+	"Create a new process with a copy of the given dynamicBindings"
+
+	^[Bindings isolate: self] newProcessWithBindings: dynamicBindings
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+valueWithBindings: dynamicBindings
+	"Evaluate the receiver in the context of the given dynamicBindings"
+
+	^self valueWithBindingsContext: thisContext
+! !
+
+!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
+valueWithBindingsContext: aContext
+	"Private. Evaluate the receiver in the context of the 
+	given dynamicBindings context"
+
+	^self
+		on: BindingsLocator
+		do: [ :n | n resume: aContext]! !
+
+!ContextPart methodsFor: '*DynamicBindings' stamp: 'lr 12/4/2009 15:25'!
+bindings
+	"Answers the Dynamic Bindings that are currently visible in the receiver's context.  This is kind of a hack...we could do a better job of this if we used the exception handling primitives directly, however, this implementation has the benefit of being slightly more portable."
+	
+	| oldSender answer |
+	oldSender := thisContext swapSender: self.
+	answer := BindingsLocator signal.
+	thisContext swapSender: oldSender.
+	^answer 
+
+	! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:10'!
+forkWithBindings
+	"Create and schedule a new process that has the same 
+	dynamic bindings as the active process"
+
+	^self newProcessWithBindings resume
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:11'!
+forkWithBindings: dynamicBindings
+	"Create and schedule a new process with the given dynamic bindings"
+
+	^(self newProcessWithBindings: dynamicBindings) resume! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 15:13'!
+forkWithClampedBindings
+
+	^self newProcessWithClampedBindings resume
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 15:13'!
+forkWithClampedBindings: dynamicBindings
+
+	^(self newProcessWithClampedBindings: dynamicBindings) resume
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 11:52'!
+forkWithIsolatedBindings
+
+	^self newProcessWithIsolatedBindings resume
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 11:51'!
+forkWithIsolatedBindings: dynamicBindings
+
+	^(self newProcessWithIsolatedBindings: dynamicBindings) resume
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:10'!
+newProcessWithBindings
+	"Create a new process that has the same dynamic bindings
+	as the active process"
+
+	^self newProcessWithBindings: Bindings get! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:11'!
+newProcessWithBindings: dynamicBindings
+	"Create a new process with the given dynamic bindings"
+
+	^[self valueWithBindings: dynamicBindings] newProcess! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:18'!
+newProcessWithClampedBindings
+	"Create a new process with a nested set of the dynamicBindings of 
+	the active process"
+
+	^self newProcessWithClampedBindings: Bindings get
+
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:16'!
+newProcessWithClampedBindings: dynamicBindings
+	"Create a new process with a nested set of the given dynamicBindings"
+
+	^[Bindings clamp: self] newProcessWithBindings: dynamicBindings
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:15'!
+newProcessWithIsolatedBindings
+	"Create a new process with a copy of the dynamicBindings of the 
+	acitve process"
+
+	^self newProcessWithIsolatedBindings: Bindings get
+
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:14'!
+newProcessWithIsolatedBindings: dynamicBindings
+	"Create a new process with a copy of the given dynamicBindings"
+
+	^[Bindings isolate: self] newProcessWithBindings: dynamicBindings
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 5/7/2003 02:37'!
+valueWithBindings: dynamicBindings
+	"Evaluate the receiver in the context of the given dynamicBindings"
+
+	^self valueWithBindingsContext: thisContext
+! !
+
+!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 5/7/2003 02:37'!
+valueWithBindingsContext: aContext
+	"Private. Evaluate the receiver in the context of the 
+	given dynamicBindings context"
+
+	^self
+		on: BindingsLocator
+		do: [ :n | n resume: aContext]! !
 
 !BindingsAccessor methodsFor: 'variable accessing' stamp: 'svp 2/1/2003 02:31'!
 associationsDo: aBlock
@@ -283,349 +533,6 @@ initialize
 	Smalltalk at: #Bindings put: self default.
 ! !
 
-!BindingsLocator methodsFor: 'exceptionDescription' stamp: 'lr 12/4/2009 15:25'!
-defaultAction
-	"Finds the root context for the active stack, then installs a new
-	handler context that will answer the context containing the root 
-	environment.  This method depends on the implementation of
-	#valueWithBindings:."
-
-	| tmp defaultActionCtx |
-	tmp := thisContext.
-	[tmp sender notNil] whileTrue: [tmp := tmp sender].
-
-	defaultActionCtx := thisContext.
-	[	
-		tmp swapSender: thisContext sender.
-		thisContext sender sender sender swapSender: nil.
-		thisContext swapSender: defaultActionCtx.
-	] valueWithBindings: DynamicBindings root.
-
-	^tmp sender sender sender
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:49'!
-bindings
-	"Answers the Dynamic Bindings that are currently visible in the receiver's context.  This is kind of a hack...we could do a better job of this if we used the exception handling primitives directly, however, this implementation has the benefit of being slightly more portable."
-	
-	| oldSender answer |
-	oldSender := thisContext swapSender: self.
-	answer := BindingsLocator signal.
-	thisContext swapSender: oldSender.
-	^answer 
-
-	! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithBindings
-	"Create and schedule a new process that has the same 
-	dynamic bindings as the active process"
-
-	^self newProcessWithBindings resume
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithBindings: dynamicBindings
-	"Create and schedule a new process with the given dynamic bindings"
-
-	^(self newProcessWithBindings: dynamicBindings) resume! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithClampedBindings
-
-	^self newProcessWithClampedBindings resume
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithClampedBindings: dynamicBindings
-
-	^(self newProcessWithClampedBindings: dynamicBindings) resume
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithIsolatedBindings
-
-	^self newProcessWithIsolatedBindings resume
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-forkWithIsolatedBindings: dynamicBindings
-
-	^(self newProcessWithIsolatedBindings: dynamicBindings) resume
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-newProcessWithBindings
-	"Create a new process that has the same dynamic bindings
-	as the active process"
-
-	^self newProcessWithBindings: Bindings get! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:38'!
-newProcessWithBindings: dynamicBindings
-	"Create a new process with the given dynamic bindings"
-
-	^[self valueWithBindings: dynamicBindings] newProcess! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-newProcessWithClampedBindings
-	"Create a new process with a nested set of the dynamicBindings of 
-	the active process"
-
-	^self newProcessWithClampedBindings: Bindings get
-
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-newProcessWithClampedBindings: dynamicBindings
-	"Create a new process with a nested set of the given dynamicBindings"
-
-	^[Bindings clamp: self] newProcessWithBindings: dynamicBindings
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-newProcessWithIsolatedBindings
-	"Create a new process with a copy of the dynamicBindings of the 
-	acitve process"
-
-	^self newProcessWithIsolatedBindings: Bindings get
-
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-newProcessWithIsolatedBindings: dynamicBindings
-	"Create a new process with a copy of the given dynamicBindings"
-
-	^[Bindings isolate: self] newProcessWithBindings: dynamicBindings
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-valueWithBindings: dynamicBindings
-	"Evaluate the receiver in the context of the given dynamicBindings"
-
-	^self valueWithBindingsContext: thisContext
-! !
-
-!BlockClosure methodsFor: '*DynamicBindings' stamp: 'damiencassou 4/5/2009 18:39'!
-valueWithBindingsContext: aContext
-	"Private. Evaluate the receiver in the context of the 
-	given dynamicBindings context"
-
-	^self
-		on: BindingsLocator
-		do: [ :n | n resume: aContext]! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:10'!
-forkWithBindings
-	"Create and schedule a new process that has the same 
-	dynamic bindings as the active process"
-
-	^self newProcessWithBindings resume
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:11'!
-forkWithBindings: dynamicBindings
-	"Create and schedule a new process with the given dynamic bindings"
-
-	^(self newProcessWithBindings: dynamicBindings) resume! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 15:13'!
-forkWithClampedBindings
-
-	^self newProcessWithClampedBindings resume
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 15:13'!
-forkWithClampedBindings: dynamicBindings
-
-	^(self newProcessWithClampedBindings: dynamicBindings) resume
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 11:52'!
-forkWithIsolatedBindings
-
-	^self newProcessWithIsolatedBindings resume
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 2/4/2003 11:51'!
-forkWithIsolatedBindings: dynamicBindings
-
-	^(self newProcessWithIsolatedBindings: dynamicBindings) resume
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:10'!
-newProcessWithBindings
-	"Create a new process that has the same dynamic bindings
-	as the active process"
-
-	^self newProcessWithBindings: Bindings get! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:11'!
-newProcessWithBindings: dynamicBindings
-	"Create a new process with the given dynamic bindings"
-
-	^[self valueWithBindings: dynamicBindings] newProcess! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:18'!
-newProcessWithClampedBindings
-	"Create a new process with a nested set of the dynamicBindings of 
-	the active process"
-
-	^self newProcessWithClampedBindings: Bindings get
-
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:16'!
-newProcessWithClampedBindings: dynamicBindings
-	"Create a new process with a nested set of the given dynamicBindings"
-
-	^[Bindings clamp: self] newProcessWithBindings: dynamicBindings
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:15'!
-newProcessWithIsolatedBindings
-	"Create a new process with a copy of the dynamicBindings of the 
-	acitve process"
-
-	^self newProcessWithIsolatedBindings: Bindings get
-
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:14'!
-newProcessWithIsolatedBindings: dynamicBindings
-	"Create a new process with a copy of the given dynamicBindings"
-
-	^[Bindings isolate: self] newProcessWithBindings: dynamicBindings
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 5/7/2003 02:37'!
-valueWithBindings: dynamicBindings
-	"Evaluate the receiver in the context of the given dynamicBindings"
-
-	^self valueWithBindingsContext: thisContext
-! !
-
-!BlockContext methodsFor: '*DynamicBindings' stamp: 'svp 5/7/2003 02:37'!
-valueWithBindingsContext: aContext
-	"Private. Evaluate the receiver in the context of the 
-	given dynamicBindings context"
-
-	^self
-		on: BindingsLocator
-		do: [ :n | n resume: aContext]! !
-
-!ContextPart methodsFor: '*DynamicBindings' stamp: 'lr 12/4/2009 15:25'!
-bindings
-	"Answers the Dynamic Bindings that are currently visible in the receiver's context.  This is kind of a hack...we could do a better job of this if we used the exception handling primitives directly, however, this implementation has the benefit of being slightly more portable."
-	
-	| oldSender answer |
-	oldSender := thisContext swapSender: self.
-	answer := BindingsLocator signal.
-	thisContext swapSender: oldSender.
-	^answer 
-
-	! !
-
-!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:27'!
-testAccessor1
-
-	| val test1 |
-	Bindings clamp:
-		[#test binding: (val := 'Test Value').
-		test1 := (#test binding == val).
-		#test removeBinding].
-
-	self assert: test1.! !
-
-!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'lr 12/4/2009 15:25'!
-testAccessor2
-
-	| val test1 test2 |
-	Bindings clamp:
-		[#test binding: (val := 'Test Value').
-		test1 := (#test binding == val).
-		#test removeBinding.
-		test2 := ((Bindings at: #test ifAbsent: [ 'absent' ]) = 'absent')].
-
-	self assert: test1.
-	self assert: test2.! !
-
-!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:28'!
-testFork
-	"In this test, we examine the isolation behavior when forking a process.  We are
-	checking to ensure that changes made to the environment in the forked process do
-	not impact the calling process.  We also check to make sure that the forked process
-	gets the current environment from the calling process at the time of the fork."
-
-	| sem test1 test2 test3 |
-	Bindings clamp:
-		[#test binding: 'Testing'.
-		sem := Semaphore new.
-			[#test2 binding: 'Testing2'.
-			test1 := (#test binding = 'Testing').
-			test2 := (#test2 binding = 'Testing2').
-			#test binding: 'Testing3'.
-			test3 := #test binding = 'Testing3'.
-			sem signal] forkWithIsolatedBindings.
-		sem wait.
-		self assert: test1.
-		self assert: test2.
-		self assert: test3.
-		self assert: (#test binding = 'Testing').
-		self assert: (#test2 hasBinding not)].
-
-	self assert: (#test hasBinding not).
-	self assert: (#test2 hasBinding not).! !
-
-!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:29'!
-testSharedRuntimeEnvironment
-	"In this test, we examine the isolation behavior when forking processes and when those
-	processes share a runtime environment.  We are checking to ensure that both forked
-	processes see the changes made to the shared runtime environment even when their
-	own environments are isoldated from each other by a modification."
-
-	| test1 test2 test3 bindings sem1 sem2 isolateSem1 isolateSem2 modSem1 modSem2 test4 |
-
-	bindings := DynamicBindings root newChild.
-	bindings at: #sharedVar put: 'Shared Value'.
-	sem1 := Semaphore new.
-	sem2 := Semaphore new.
-	isolateSem1 := Semaphore new.
-	isolateSem2 := Semaphore new.
-	modSem1 := Semaphore new.
-	modSem2 := Semaphore new.
-
-	bindings forkClamped: 
-		[test1 := #sharedVar binding = 'Shared Value'.
-		#forceIsolation binding: 'testing'.
-		isolateSem1 signal.
-		modSem1 wait.
-		test2 := #sharedVar binding = 'Shared Value 2'.
-		sem1 signal].
-
-	bindings forkClamped:
-		[test3 := #sharedVar binding = 'Shared Value'.
-		#forceIsolation binding: 'testing'.
-		isolateSem2 signal.
-		modSem2 wait.
-		test4 := #sharedVar binding = 'Shared Value 2'.
-		sem2 signal].
-
-	isolateSem1 wait.
-	isolateSem2 wait.
-	bindings at: #sharedVar put: 'Shared Value 2'.
-	modSem1 signal.
-	modSem2 signal.
-	sem1 wait.
-	sem2 wait.
-
-	self assert: test1.
-	self assert: test2.
-	self assert: test3.
-	self assert: test4.
-
-! !
-
 !DynamicBindings methodsFor: 'accessing' stamp: 'lr 4/15/2010 08:55'!
 at: key ifAbsent: aBlock
 	| assoc tmp |
@@ -782,31 +689,125 @@ root
 
 	^Root! !
 
-!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:08'!
-binding
-	"Answer the DynamicBinding for the receiver (if any)"
+!BindingsLocator methodsFor: 'exceptionDescription' stamp: 'lr 12/4/2009 15:25'!
+defaultAction
+	"Finds the root context for the active stack, then installs a new
+	handler context that will answer the context containing the root 
+	environment.  This method depends on the implementation of
+	#valueWithBindings:."
 
-	^Bindings bindingFor: self ifNotBound: [nil]! !
+	| tmp defaultActionCtx |
+	tmp := thisContext.
+	[tmp sender notNil] whileTrue: [tmp := tmp sender].
 
-!Object methodsFor: '*DynamicBindings' stamp: 'svp 4/29/2003 00:35'!
-binding: anObject
-	"Set the dynamic binding for the receiver, if anObject is nil, then 
-	remove the receiver's dynamic binding (if any)"
+	defaultActionCtx := thisContext.
+	[	
+		tmp swapSender: thisContext sender.
+		thisContext sender sender sender swapSender: nil.
+		thisContext swapSender: defaultActionCtx.
+	] valueWithBindings: DynamicBindings root.
 
-	^anObject 
-		ifNil: [self removeBinding]
-		ifNotNil: [Bindings bind: self to: anObject]! !
+	^tmp sender sender sender
+! !
 
-!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:09'!
-hasBinding
-	"Answer whether or not the receiver has a dynamic binding"
+!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:27'!
+testAccessor1
 
-	^Bindings includesKey: self! !
+	| val test1 |
+	Bindings clamp:
+		[#test binding: (val := 'Test Value').
+		test1 := (#test binding == val).
+		#test removeBinding].
 
-!Object methodsFor: '*DynamicBindings' stamp: 'svp 3/6/2003 16:09'!
-removeBinding
-	"Remove the dynamic binding associated with the receiver"
+	self assert: test1.! !
 
-	^Bindings removeKey: self ifAbsent: []! !
+!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'lr 12/4/2009 15:25'!
+testAccessor2
+
+	| val test1 test2 |
+	Bindings clamp:
+		[#test binding: (val := 'Test Value').
+		test1 := (#test binding == val).
+		#test removeBinding.
+		test2 := ((Bindings at: #test ifAbsent: [ 'absent' ]) = 'absent')].
+
+	self assert: test1.
+	self assert: test2.! !
+
+!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:28'!
+testFork
+	"In this test, we examine the isolation behavior when forking a process.  We are
+	checking to ensure that changes made to the environment in the forked process do
+	not impact the calling process.  We also check to make sure that the forked process
+	gets the current environment from the calling process at the time of the fork."
+
+	| sem test1 test2 test3 |
+	Bindings clamp:
+		[#test binding: 'Testing'.
+		sem := Semaphore new.
+			[#test2 binding: 'Testing2'.
+			test1 := (#test binding = 'Testing').
+			test2 := (#test2 binding = 'Testing2').
+			#test binding: 'Testing3'.
+			test3 := #test binding = 'Testing3'.
+			sem signal] forkWithIsolatedBindings.
+		sem wait.
+		self assert: test1.
+		self assert: test2.
+		self assert: test3.
+		self assert: (#test binding = 'Testing').
+		self assert: (#test2 hasBinding not)].
+
+	self assert: (#test hasBinding not).
+	self assert: (#test2 hasBinding not).! !
+
+!DynamicBindingTests methodsFor: 'as yet unclassified' stamp: 'svp 5/6/2003 11:29'!
+testSharedRuntimeEnvironment
+	"In this test, we examine the isolation behavior when forking processes and when those
+	processes share a runtime environment.  We are checking to ensure that both forked
+	processes see the changes made to the shared runtime environment even when their
+	own environments are isoldated from each other by a modification."
+
+	| test1 test2 test3 bindings sem1 sem2 isolateSem1 isolateSem2 modSem1 modSem2 test4 |
+
+	bindings := DynamicBindings root newChild.
+	bindings at: #sharedVar put: 'Shared Value'.
+	sem1 := Semaphore new.
+	sem2 := Semaphore new.
+	isolateSem1 := Semaphore new.
+	isolateSem2 := Semaphore new.
+	modSem1 := Semaphore new.
+	modSem2 := Semaphore new.
+
+	bindings forkClamped: 
+		[test1 := #sharedVar binding = 'Shared Value'.
+		#forceIsolation binding: 'testing'.
+		isolateSem1 signal.
+		modSem1 wait.
+		test2 := #sharedVar binding = 'Shared Value 2'.
+		sem1 signal].
+
+	bindings forkClamped:
+		[test3 := #sharedVar binding = 'Shared Value'.
+		#forceIsolation binding: 'testing'.
+		isolateSem2 signal.
+		modSem2 wait.
+		test4 := #sharedVar binding = 'Shared Value 2'.
+		sem2 signal].
+
+	isolateSem1 wait.
+	isolateSem2 wait.
+	bindings at: #sharedVar put: 'Shared Value 2'.
+	modSem1 signal.
+	modSem2 signal.
+	sem1 wait.
+	sem2 wait.
+
+	self assert: test1.
+	self assert: test2.
+	self assert: test3.
+	self assert: test4.
+
+! !
 BindingsAccessor initialize!
 DynamicBindings initialize!
